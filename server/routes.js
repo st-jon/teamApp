@@ -6,7 +6,7 @@ const publicPath = path.join(__dirname, '..', '/index.html')
 
 const app = express.Router()
 
-const {addUser, getUserByEmail, getUserById, getUsersById, addProfilePic, addBio, getFriendStatus, addFriendRequest, acceptFriendRequest, cancelFriendRequest, getFriendsAndWanabee, searchFriendByName, addWallPosts, getWallPosts} = require('../db/db')
+const {addUser, getUserByEmail, getUserById, updateUserById} = require('../db/db')
 const {hashPassword, checkPassword} = require('../utils/crypt')
 const {validateForm} = require('../utils/utils')
 const {upload} = require('./s3')
@@ -14,7 +14,7 @@ const {s3Url} = require('../config')
 
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
-        callback(null, __dirname + '/uploads')
+        callback(null, path.join(__dirname, '..', '/uploads'))
     },
     filename: function (req, file, callback) {
       uidSafe(24).then(function(uid) {
@@ -26,7 +26,7 @@ const diskStorage = multer.diskStorage({
 const uploader = multer({
     storage: diskStorage,
     limits: {
-        fileSize: 2097152
+        fileSize: 20097152
     }
 })
 
@@ -48,6 +48,20 @@ app.get('/user', (req, res) => {
         .then(data => res.json(data))
         .catch(err => console.log(err.message))
 })
+
+app.post('/updateUser', (req, res) => {
+    updateUserById(req.session.userID, req.body.username, req.body.firstname, req.body.lastname, req.body.email, req.body.genre)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
+app.post('/updateUserWithPicture', uploader.single('file'), upload, (req, res) => {
+    let url = `${s3Url}${req.file.filename}`
+    updateUserById(req.session.userID, req.body.username, req.body.firstname, req.body.lastname, req.body.email, req.body.genre, url)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
 
 // // UPLOAD PROFILE PICTURE
 // app.post('/upload', uploader.single('file'), upload, (req, res) => {

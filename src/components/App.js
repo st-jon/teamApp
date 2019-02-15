@@ -1,8 +1,11 @@
 import React from 'react'
 import axios from '../axios'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import {AddloggedinUser} from '../redux/actions'
 
 import Header from './Header'
+import UserTooBar from './UserToolBar'
 
 class App extends React.Component {
     constructor() {
@@ -18,16 +21,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('/user')
-            .then(({data}) => {
-                this.setState({
-                    username: data.rows[0].username,
-                    firstname: data.rows[0]['first_name'],
-                    lastname: data.rows[0]['last_name'],
-                    userPicture: data.rows[0]['user_picture']
-                })
-            })
-            .catch(err => console.log(err.message))
+        this.props.dispatch(AddloggedinUser())
     }
 
     logout() {
@@ -45,6 +39,7 @@ class App extends React.Component {
             <BrowserRouter>
                 <div className="app__container">
                     <Header />
+                    <UserTooBar />
                     <div onClick={this.logout} className="logout">Logout</div>
                 </div>  
             </BrowserRouter>      

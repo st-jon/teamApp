@@ -4,7 +4,23 @@ export async function AddloggedinUser() {
     const {data} = await axios.get('/user')
     return {
         type: 'ADD_LOGGEDIN_USER',
-        user: data.data.rows[0]
+        user: data.rows[0]
+    }
+}
+
+export async function updateUser(userData) {
+    const {data} = await axios.post('/updateUser', userData)
+    return {
+        type: 'UPDATE_USER',
+        user: data.rows[0]
+    }
+}
+
+export async function updateUserWithPicture(userData) {
+    const {data} = await axios.post('/updateUserWithPicture', userData)
+    return {
+        type: 'UPDATE_USER',
+        user: data.rows[0]
     }
 }
 

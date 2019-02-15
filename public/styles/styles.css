@@ -165,7 +165,7 @@ body, html {
     left: 20px; /* then 0px */
     z-index: 2;
     width: 100%;
-    font-size: 1rem;;
+    font-size: 1rem;
     color: #666;
     font-weight: 700;
     opacity: 0.5;
@@ -249,7 +249,7 @@ body, html {
     font-size: 2.9rem;
 }
 
-.header__container img {
+.header__container .user__icon {
     height: 4vh;
     width: auto;
     cursor: pointer;
@@ -260,10 +260,181 @@ body, html {
     margin-right: 1vw;
 }
 
+.userPicture {
+    height: 4vh;
+    width: 4vh;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.defaut_picture {
+    height: 4vh;
+    width: 4vh;
+    background: #fff;
+    color: rgb(0, 64, 201);
+    border-radius: 50%;
+    font-family: 'Amatic SC', cursive;
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    line-height: 4vh;
+    cursor: pointer;
+}
+
 .header__right {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     width: 30vw;
     margin-right: 2vw;
+}
+
+.greeting__user {
+    font-family: 'Amatic SC', cursive;
+    font-size: 2rem;
+    color: #FFF;
+    margin-right: 1vw;
+}
+
+
+/*  EDIT USER PROFILE  */
+
+.userEditor__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    top: 5vh;
+    right: 0;
+    height: 50vh;
+    width: 30vw;
+    border: 1px solid #BBB;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
+}
+
+.form-group__edit {
+    display: flex;
+    padding-top: 5px;
+    margin-bottom: 5px;
+}
+
+.input-edit {
+    font-size: 1rem;
+    width: 20vw;
+    height: 3vh;
+    padding: 2px;
+    margin: 2px;
+    font-weight: bold;
+    align-self: center;
+    border: none;
+    border-bottom: 1px solid #BBB;
+}
+
+.input-edit:focus {
+    outline: none;
+    color: #222;
+    border-bottom: 1px solid rgb(182, 165, 17);
+}
+
+.input-edit:not(:placeholder-shown) {
+    border-bottom: 1px solid rgb(182, 165, 17);
+}
+
+
+.image-upload__input {
+    width: 1px;
+    visibility: hidden;
+}
+
+.image-upload__show {
+    width: 20vw;
+    height: 3vh;
+    font-size: 1rem;
+    color: #666;
+    font-weight: 700;
+    line-height: 3vh;
+    padding-left: 2px;
+    cursor: text;
+    width: 20vw;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 1px solid #BBB;
+}
+
+.input-edit__label {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 700;
+    line-height: 3vh;
+    padding-left: 2px;
+    cursor: text;
+    width: 18vw;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.input-edit__radio {
+    width: 2vw;
+    height: 3vh;
+    margin: 0 5px;
+}
+
+
+/*  USER TOOL BAR */
+
+
+.userToolBar__container {
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+    width: 15vw;
+    background: #E9EBEE;
+}
+
+.toolBar-menu {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 30px;
+}
+
+.user-header .userPicture {
+    height: 3vh;
+    width: 3vh;
+}
+
+.user-header .user__icon {
+    height: 3vh;
+    width: 3vh;
+}
+
+.user-header__name {
+    font-size: 1.3rem;
+    margin-left: 10px;
+}
+
+.user-folders {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 30px;
+    padding-left: 30px;
+}
+
+.toolBar__title {
+    font-size: 1.3rem;
+    margin-left: 10px;
+}
+
+.toolBar__icon {
+    height: 3vh;
+    width: 3vh;
+    
 }

@@ -4,6 +4,14 @@ export default function(state = {}, action) {
         state = {...state, user: action.user}
     }
 
+    if (action.type === 'UPDATE_USER') {
+        state = {...state, user: action.user}
+    }
+
+    if (action.type === 'UPDATE_USER_WITH_PICTURE') {
+        state = {...state, user: action.user}
+    }
+
     // if (action.type === 'RECEIVE_FRIENDS') {
     //     state = {...state, friends: action.friends}
     // }

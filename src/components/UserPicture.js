@@ -1,15 +1,29 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-export default function UserPicture(props) {
-    return (
-        <div className="user-picture">
-            <img src="./assets/icons8-user-male-100.png" />
-        </div>
-    )
-
+class UserPicture extends React.Component {
+    render() {
+        const {user} = this.props
+        if (!user) {
+            return null
+        }
+        return (
+            <div className="user-picture">
+                {!user['user_picture'] && !user.genre && 
+                <div className="defaut_picture">{user['first_name'].charAt(0)}{user['last_name'].charAt(0)}</div>}
+                {!user['user_picture'] && user.genre === 'man' &&
+                <img className="user__icon" src="./assets/icons8-user-male-100.png" />}
+                {!user['user_picture'] && user.genre === 'woman' &&
+                <img className="user__icon" src="./assets/icons8-female-user-100.png" />}
+                {user['user_picture'] &&
+                <img className="userPicture" src={user['user_picture']} />}
+            </div>
+        )
+    } 
 }
 
-// {props.picture ? <img className="user__profilPic" onClick={props.uploader} src={props.picture} /> :
-//             <div onClick={props.uploader} className="default__profilPic"><span className="initial">{props.name.charAt(0)}{props.last.charAt(0)}</span></div>
-//             }
-//             <div className="edit__profile"></div>
+const mapStateToProps = function(state) {
+    return {user: state.user}
+}
+
+export default connect(mapStateToProps)(UserPicture)
