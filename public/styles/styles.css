@@ -1,0 +1,269 @@
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit; 
+}
+
+body, html {
+    font-size: 62.5%;
+    font-family: arial;
+}
+
+
+/* WELCOME PAGE */
+
+
+.welcome {
+    display: flex;
+    justify-content: center;
+}
+
+.welcome__left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height:100vh;
+    width: 50vw;
+}
+
+.title {
+    display: flex;
+    align-self: center;
+    font-size: 15rem;
+    font-family: 'Amatic SC', cursive;
+    letter-spacing: 2rem;
+    text-shadow: -5px 24px 22px rgba(150, 150, 150, 0.37);
+}
+.title__t {
+    color: rgb(201, 0, 0);
+    font-size: 11rem;
+}
+.title__e {
+    color: rgb(0, 64, 201);
+    font-size: 13rem;
+}
+.title__a {
+    color: rgb(55, 194, 0);
+    font-size: 18rem;
+}
+.title__m {
+    color: rgb(230, 214, 3);
+    font-size: 24rem;
+}
+
+.subtitle {
+    align-self: center;
+
+    font-size: 3rem;
+    font-family: 'Amatic SC', cursive;
+    letter-spacing: .5rem;
+}
+
+.welcome__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height:100vh;
+    width: 50vw;
+}
+
+
+/*  REGISTRATION AND LOGIN  */
+
+
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 95vh;
+}
+
+.registration__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input {
+    font-size: 3rem;
+    width: 30vw;
+    height: 5vh;
+    padding: 5px;
+    margin: 10px;
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 2em;
+    align-self: center;
+    border: none;
+    border-bottom: 1px solid #BBB;
+}
+
+.input:focus {
+    outline: none;
+    color: #222;
+    border-bottom: 1px solid rgb(182, 165, 17);
+}
+
+.btn__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 15px;
+    width: 30%;
+    margin-top: 2vh;
+    border: none;
+    outline: none;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.btn:hover,
+.btn:focus {
+    transform: translateY(-.15rem) scale(1.1);
+    text-shadow: 6px 6px 40px rgba(29, 29, 29, .2);
+}
+
+.btn:active {
+    outline: none;
+    transform: translateY(.15rem) scale(1.1);
+    text-shadow: 6px 6px 40px rgba(29, 29, 29, .3);
+}
+
+.login__link {
+    font-size: 1.4rem;
+}
+
+.alert {
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+}
+
+.error {
+    color:  red;
+}
+
+.form-group {
+    position: relative;
+    padding-top: 16px;
+    margin-bottom: 16px;
+}
+
+.animated-label {
+    position: absolute;
+    top: 45px;  /* then 20px */
+    left: 20px; /* then 0px */
+    z-index: 2;
+    width: 100%;
+    font-size: 1rem;;
+    color: #666;
+    font-weight: 700;
+    opacity: 0.5;
+    cursor: text;
+    opacity: 0;
+    transition: all .2s ease ;
+    margin: 0;
+}
+
+.input::-webkit-input-placeholder {opacity: 0.8; transition: all .2s ease}
+.input:focus:-moz-placeholder {opacity: 0.8; transition: all .2s ease}
+
+.input:focus::-webkit-input-placeholder { opacity: 0; font-size: 1rem; transform: translate(-15px, -25px) }
+.input:focus:-moz-placeholder { opacity: 0; font-size: 1rem; transform: translate(-15px, -25px) }
+
+.input:focus + .animated-label {
+    /* transform: translateY(-10px); */
+    top: 20px;
+    left: 0px;
+    opacity: .8;
+}
+
+.input:not(:placeholder-shown) + .animated-label {
+    /* transform: translateY(-10px); */
+    top: 20px;
+    left: 0px;
+    opacity: .8;
+}
+
+.input:not(:placeholder-shown) {
+    border-bottom: 1px solid rgb(182, 165, 17);
+}
+
+
+/*  APP  */
+
+
+.app__container {
+    font-size: 3rem;
+}
+
+.logout {
+    cursor: pointer;
+}
+
+
+/*  HEADER  */
+
+
+.header__container {
+    display: flex;
+    justify-content: space-between;
+    height: 5vh;
+    width: 100vw;
+    background: rgb(0, 64, 201);
+}
+
+.title__header {
+    display: flex;
+    align-self: center;
+    font-family: 'Amatic SC', cursive;
+    letter-spacing: .2rem;
+    text-shadow: -5px 24px 22px rgba(150, 150, 150, 0.37);
+    margin-left: 2vw;
+    cursor: pointer;
+}
+.title__t__header {
+    color: rgb(201, 0, 0);
+    font-size: 2.9rem;
+}
+.title__e__header {
+    color: #FFF;
+    font-size: 2.9rem;
+}
+.title__a__header {
+    color: rgb(55, 194, 0);
+    font-size: 2.9rem;
+}
+.title__m__header {
+    color: rgb(230, 214, 3);
+    font-size: 2.9rem;
+}
+
+.header__container img {
+    height: 4vh;
+    width: auto;
+    cursor: pointer;
+}
+
+.header__container .user-picture {
+    height: 4vh;
+    margin-right: 1vw;
+}
+
+.header__right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 30vw;
+    margin-right: 2vw;
+}
