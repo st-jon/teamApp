@@ -9,8 +9,7 @@ class ToolBarNotes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            filesAreVisible: false,
-            index: null
+            visible: []
         }
     }
 
@@ -24,11 +23,20 @@ class ToolBarNotes extends React.Component {
         })
     }
 
-    showFiles(i) {
-        this.setState(prevState => ({
-            filesAreVisible: !prevState.filesAreVisible,
-            index: prevState.index !== null ? null : i
-        }))
+    showFiles(i, folder) {
+        if(!this.state.visible.includes(folder)) {
+            let newArray = this.state.visible
+            newArray[i] = folder
+            this.setState({
+                visible: newArray
+            })
+        } else {
+            let newArray = this.state.visible
+            newArray[i] = null
+            this.setState({
+                visible: newArray
+            })
+        }        
     }
 
 
@@ -37,24 +45,22 @@ class ToolBarNotes extends React.Component {
         if (!notes) {
             return null
         }
-        console.log(notes)
-        
         return (
             <div className="toolBarNotes__container">
             {notes.map((noteType, i) => (
                 <div key={i}>
-                    <div className="toolBarNotes__folder" onClick={this.showFiles.bind(this, i)} >
+                    <div className="toolBarNotes__folder" onClick={this.showFiles.bind(this, i, noteType['note_type'])} >
                         <img className="toolBarNotes__icon" src="./assets/notes.png"/>
                         <div className="toolBarNotes__title">{noteType['note_type']}</div>
                     </div> 
-                    {this.state.filesAreVisible && this.state.index === i && <ToolBarFiles index={i}/>}
+                    {this.state.visible[i] === noteType['note_type'] && <ToolBarFiles index={i}/>}
                 </div>
             ))}
             </div> 
         )
     }
-
 }
+
 const mapStateToProps = function(state) {
     return {notes: state.notes}
 }

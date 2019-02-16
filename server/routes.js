@@ -74,9 +74,7 @@ app.get('/notes', async(req, res) => {
 })
 
 app.post('/files', async(req, res) => {
-    console.log(req.body)
     const files = await getFilesByNotesType(req.session.userID, req.body.type)
-    console.log(files)
     res.json(files)
 })
 
