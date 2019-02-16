@@ -379,6 +379,12 @@ body, html {
     cursor: pointer;
 }
 
+.radio__container {
+    display: flex;
+    flex-direction: column;
+    
+}
+
 .input-edit__radio {
     width: 2vw;
     height: 3vh;
@@ -394,6 +400,7 @@ body, html {
     flex-direction: column;
     height: 95vh;
     width: 15vw;
+    min-width: 180px;
     background: #E9EBEE;
 }
 
@@ -401,8 +408,21 @@ body, html {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 10px;
+    padding: 10px 0;
     padding-left: 30px;
+    cursor: pointer;
+}
+
+.toolBar-menu:hover {
+    background: #FFF;
+}
+
+.toolBarNotes__header {
+
+}
+
+.user-header {
+    margin-top: 20px;
 }
 
 .user-header .userPicture {
@@ -424,8 +444,7 @@ body, html {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 30px;
-    padding-left: 30px;
+    margin-top: 30px;
 }
 
 .toolBar__title {
@@ -436,5 +455,75 @@ body, html {
 .toolBar__icon {
     height: 3vh;
     width: 3vh;
-    
+}
+
+
+/* TOOLBAR NOTES */
+
+
+.toolBarNotes__container {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    max-height: 30vh;
+    margin-bottom: 10px;
+    margin-left: 40px;
+    overflow: scroll;
+}
+
+.toolBarNotes__folder {
+    display: flex;
+    justify-content: flex-start;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.toolBarNotes__folder:hover {
+    background: #FFF;
+}
+
+.toolBarNotes__icon {
+    height: 2vh;
+    width: 2vh;
+}
+
+.toolBarNotes__title {
+    font-size: 1.3rem;
+    margin-left: 10px;
+}
+
+/*  TOOLBAR FILES */
+
+.toolBarFiles__container {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    max-height: 30vh;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    overflow: scroll;
+}
+
+.toolBarFiles__folder {
+    display: flex;
+    justify-content: flex-start;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.toolBarFiles__folder:hover {
+    background: #FFF;
+}
+
+.toolBarFiles__icon {
+    height: 2vh;
+    width: 2vh;
+}
+
+.toolBarFiles__title {
+    font-size: 1.2rem;
+    margin-left: 5px;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
 }

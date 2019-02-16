@@ -32,7 +32,8 @@ module.exports.getUserByEmail = (email) => {
 // GET USER BY ID
 module.exports.getUserById = (id) => {
     return db.query(`
-        SELECT * FROM users
+        SELECT id, username, first_name, last_name, email, genre, user_picture, user_status 
+        FROM users
         WHERE id = $1`,
         [id]
     )
@@ -56,6 +57,46 @@ module.exports.getUsersById = (arrayOfId) => {
         FROM users 
         WHERE id = ANY($1)`, 
         [arrayOfId]
+    )
+}
+
+// GET NOTES BY AUTHOR ID
+module.exports.getNotesByAuthor = (id) => {
+    return db.query(`
+        SELECT * FROM notes
+        WHERE author_id = $1`, 
+        [id]
+    )
+}
+
+module.exports.getNotesTypesByAuthor = (id) => {
+    return db.query(`
+        SELECT note_type FROM notes
+        WHERE author_id = $1`, 
+        [id]
+    )
+}
+
+module.exports.getFilesByNotesType = (id, type) => {
+    return db.query(`
+        SELECT * FROM notes
+        WHERE note_type = $2 AND author_id = $1`, 
+        [id, type]
+    )
+}
+
+
+// INSERT DEFAULT VALUES IN NOTES
+module.exports.insertDefaultIntoNotes = (id) => {
+    return db.query(`
+        INSERT INTO notes (author_id, note_type, note, title, editable)
+        VALUES 
+        ($1, 'To Do', 'My first note to do', 'my first note to do', true),
+        ($1, 'To read', 'My first note to read', 'my first note to read', true),
+        ($1, 'Idea', 'My first idea', 'my first idea is ...', true),
+        ($1, 'Various', 'My first note', 'my first note', true)
+        RETURNING *`, 
+        [id]
     )
 }
 

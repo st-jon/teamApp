@@ -2,7 +2,7 @@ import React from 'react'
 import axios from '../axios'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {AddloggedinUser} from '../redux/actions'
+import {AddloggedinUser, getNotes} from '../redux/actions'
 
 import Header from './Header'
 import UserTooBar from './UserToolBar'
@@ -22,6 +22,7 @@ class App extends React.Component {
 
     componentDidMount() {
         this.props.dispatch(AddloggedinUser())
+        this.props.dispatch(getNotes())
     }
 
     logout() {

@@ -6,7 +6,7 @@ const publicPath = path.join(__dirname, '..', '/index.html')
 
 const app = express.Router()
 
-const {addUser, getUserByEmail, getUserById, updateUserById} = require('../db/db')
+const {addUser, getUserByEmail, getUserById, updateUserById, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes} = require('../db/db')
 const {hashPassword, checkPassword} = require('../utils/crypt')
 const {validateForm} = require('../utils/utils')
 const {upload} = require('./s3')
@@ -61,6 +61,25 @@ app.post('/updateUserWithPicture', uploader.single('file'), upload, (req, res) =
         .then(data => res.json(data))
         .catch(err => console.log(err.message))
 })
+
+app.get('/notes', async(req, res) => {
+    const data = await getNotesTypesByAuthor(req.session.userID)
+    if (data.rowCount === 0) {
+        const {defaultData} = await insertDefaultIntoNotes(req.session.userID)
+        const noteType = await getNotesTypeByAuthor(req.session.userID)
+        res.json(noteType)
+    } else {
+        res.json(data)
+    }
+})
+
+app.post('/files', async(req, res) => {
+    console.log(req.body)
+    const files = await getFilesByNotesType(req.session.userID, req.body.type)
+    console.log(files)
+    res.json(files)
+})
+
 
 
 // // UPLOAD PROFILE PICTURE

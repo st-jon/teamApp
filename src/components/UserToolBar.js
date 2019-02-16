@@ -2,11 +2,21 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import UserPicture from './UserPicture'
+import ToolBarNotes from './ToolBarNotes'
 
 class UserToolBar extends React.Component {
     constructor() {
         super()
-        this.state = {}
+        this.state = {
+            notesAreVisible: false
+        }
+        this.showNotes = this.showNotes.bind(this)
+    }
+
+    showNotes() {
+        this.setState(prevState => ({
+            notesAreVisible: !prevState.notesAreVisible
+        }))
     }
 
     render() {
@@ -21,10 +31,11 @@ class UserToolBar extends React.Component {
                     <UserPicture />
                     <div className="user-header__name">{user.username}</div>
                 </div>
-                <div className="user-folders toolBar-menu">
+                <div className="user-folders toolBar-menu" onClick={this.showNotes}>
                     <img className="toolBar__icon" src='./assets/notes.png' />
                     <div className="toolBar__title"> Notes</div>
                 </div>
+                {this.state.notesAreVisible && <ToolBarNotes />}
                 <div className="user-chat toolBar-menu">
                     <img className="toolBar__icon" src='./assets/chat.png' />
                     <div className="toolBar__title"> Chat</div>

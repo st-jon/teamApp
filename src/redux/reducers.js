@@ -12,6 +12,15 @@ export default function(state = {}, action) {
         state = {...state, user: action.user}
     }
 
+    if (action.type === 'GET_NOTES_TYPE') {
+        state = {...state, notes: action.notes}
+    }
+
+    if (action.type === 'GET_FILES') {
+        const index = state.notes.findIndex(note => note['note_type'] === action.noteType)
+        state.notes[index].files = action.files
+    }
+
     // if (action.type === 'RECEIVE_FRIENDS') {
     //     state = {...state, friends: action.friends}
     // }

@@ -9,7 +9,7 @@ class UserPicture extends React.Component {
         }
         return (
             <div className="user-picture">
-                {!user['user_picture'] && !user.genre && 
+                {!user['user_picture'] && (!user.genre || user.genre === 'intersex')&& 
                 <div className="defaut_picture">{user['first_name'].charAt(0)}{user['last_name'].charAt(0)}</div>}
                 {!user['user_picture'] && user.genre === 'man' &&
                 <img className="user__icon" src="./assets/icons8-user-male-100.png" />}

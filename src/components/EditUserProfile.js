@@ -41,7 +41,6 @@ class EditUserProfile extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props)
         let input = document.getElementById('file__input')
         let fakeInput = document.getElementById('file__input__fake')
         
@@ -81,13 +80,19 @@ class EditUserProfile extends React.Component {
                 <div className="form-group__edit">
                     <input className="input-edit" defaultValue={user['email']} type="text" name="email" onChange={this.handleChange} autoComplete="off" placeholder="Email" />
                 </div>
-                <div className="form-group__edit">
-                    <input className="input-edit__radio" type="radio" id="man" name="genre" value="man" onChange={this.handleChange} />
-                    <label className="input-edit__label" htmlFor="man">Man</label>
-                </div>
-                <div className="form-group__edit">
-                    <input className="input-edit__radio" type="radio" id="woman" name="genre" value="woman" onChange={this.handleChange} />
-                    <label className="input-edit__label" htmlFor="woman">Woman</label>
+                <div className="radio__container">
+                    <div className="form-group__edit">
+                        <input className="input-edit__radio" type="radio" id="man" name="genre" value="man" onChange={this.handleChange} />
+                        <label className="input-edit__label" htmlFor="man">Man</label>
+                    </div>
+                    <div className="form-group__edit">
+                        <input className="input-edit__radio" type="radio" id="woman" name="genre" value="woman" onChange={this.handleChange} />
+                        <label className="input-edit__label" htmlFor="woman">Woman</label>
+                    </div>
+                    <div className="form-group__edit">
+                        <input className="input-edit__radio" type="radio" id="intersex" name="genre" value="intersex" onChange={this.handleChange} />
+                        <label className="input-edit__label" htmlFor="intersex">Intersex</label>
+                    </div>
                 </div>
                 <div className="form-group__edit">
                     <input id="file__input" className="image-upload__input" type="file"/>

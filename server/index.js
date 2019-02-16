@@ -14,9 +14,6 @@ const publicPath = path.join(__dirname, '..', 'public')
 const server = require('http').Server(app)
 const io = require('socket.io')(server, { origins: 'localhost:8080', pingTimeout: 60000})
 
-app.use('/favicon.ico', (req, res) => {
-    res.send()
-})
 app.use(compression())
 
 app.use(bodyParser.json())

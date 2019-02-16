@@ -24,6 +24,23 @@ export async function updateUserWithPicture(userData) {
     }
 }
 
+export async function getNotes() {
+    const {data} = await axios.get('/notes')
+    return {
+        type: 'GET_NOTES_TYPE',
+        notes: data.rows
+    }
+}
+
+export async function getFiles(type){
+    const {data} = await axios.post('/files', {type})
+    return {
+        type: 'GET_FILES',
+        files: data.rows,
+        noteType: type
+    }
+} 
+
 // export async function receiveFriends() {
 //     const {data} = await axios.get('/getfriends')
 //     return {
