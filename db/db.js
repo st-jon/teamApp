@@ -100,6 +100,42 @@ module.exports.insertDefaultIntoNotes = (id) => {
     )
 }
 
+module.exports.addNotesWithPicture = (id, text, folder, title, editable, picture) => {
+    return db.query(`
+        INSERT INTO notes (author_id, note, note_type, title, editable, picture)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING *`, 
+        [id, text, folder, title, editable, picture]
+    )
+}
+
+module.exports.addNotesWithLink = (id, folder, title, link, description, publisher, picture) => {
+    return db.query(`
+        INSERT INTO notes (author_id, note_type, title, link, link_content, publisher, picture)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING *`, 
+        [id, folder, title, link, description, publisher, picture]
+    )
+}
+
+module.exports.addNotesWithAudio = (id, folder, title, audio) => {
+    return db.query(`
+        INSERT INTO notes (author_id, note_type, title, sound)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *`, 
+        [id, folder, title, audio]
+    )
+}
+
+module.exports.addNotesWithVideo = (id, folder, title, video) => {
+    return db.query(`
+        INSERT INTO notes (author_id, note_type, title, video)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *`, 
+        [id, folder, title, video]
+    )
+}
+
 
 
 // // ADD PROFILE_PIC

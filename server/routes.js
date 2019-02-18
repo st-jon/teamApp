@@ -1,12 +1,19 @@
 const express = require('express')
 const path = require('path')
+const util = require('util')
 const multer = require('multer')
 const uidSafe = require('uid-safe')
+const request = require('request')
+var rp = require('request-promise-native')
+const cheerio = require('cheerio')
+const _ = require('lodash')
+
+
 const publicPath = path.join(__dirname, '..', '/index.html')
 
 const app = express.Router()
 
-const {addUser, getUserByEmail, getUserById, updateUserById, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes} = require('../db/db')
+const {addUser, getUserByEmail, getUserById, updateUserById, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes, addNotesWithPicture, addNotesWithLink, addNotesWithAudio, addNotesWithVideo} = require('../db/db')
 const {hashPassword, checkPassword} = require('../utils/crypt')
 const {validateForm} = require('../utils/utils')
 const {upload} = require('./s3')
@@ -66,7 +73,7 @@ app.get('/notes', async(req, res) => {
     const data = await getNotesTypesByAuthor(req.session.userID)
     if (data.rowCount === 0) {
         const {defaultData} = await insertDefaultIntoNotes(req.session.userID)
-        const noteType = await getNotesTypeByAuthor(req.session.userID)
+        const noteType = await getNotesTypesByAuthor(req.session.userID)
         res.json(noteType)
     } else {
         res.json(data)
@@ -78,6 +85,44 @@ app.post('/files', async(req, res) => {
     res.json(files)
 })
 
+// ADD NOTE WITH PICTURE
+app.post('/notesWithPicture', uploader.single('file'), upload, (req, res) => {
+    let url = `${s3Url}${req.file.filename}` 
+    addNotesWithPicture(req.session.userID, req.body.text, req.body.folder, req.body.title, true, url)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
+// ADD NOTE WITH LINK
+app.post('/getBodyLink', (req, res) => {
+    rp(req.body.url)
+        .then(data => {
+            const $ = cheerio.load(data)
+            const picture = $('meta[property="og:image"]').attr('content')
+            const publisher = $('meta[property="og:site_name"]').attr('content')
+            const description = $('meta[property="og:description"]').attr('content')
+            console.log(req.body)
+            return addNotesWithLink(req.session.userID, req.body.folder, req.body.noteTitle, req.body.url, description, publisher, picture)       
+        })
+        .then(note => res.json(note))
+        .catch(err => err.message)
+})
+
+// ADD NOTE WITH SOUND
+app.post('/notesWithAudio', uploader.single('file'), upload, (req, res) => {
+    let url = `${s3Url}${req.file.filename}` 
+    addNotesWithAudio(req.session.userID, req.body.folder, req.body.title, url)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
+// ADD NOTE WITH VIDEO
+app.post('/notesWithVideo', uploader.single('file'), upload, (req, res) => {
+    let url = `${s3Url}${req.file.filename}` 
+    addNotesWithVideo(req.session.userID, req.body.folder, req.body.title, url)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
 
 
 // // UPLOAD PROFILE PICTURE
@@ -88,13 +133,7 @@ app.post('/files', async(req, res) => {
 //         .catch(err => console.log(err.message))
 // })
 
-// // UPLOAD WALL WITH PICTURE
-// app.post('/wallWithPicture', uploader.single('file'), upload, (req, res) => {
-//     let url = `${s3Url}${req.file.filename}` 
-//     addWallPosts(req.session.userID, req.body.first, req.body.last, req.body.picture, req.body.message, url)
-//         .then(data => res.json(data))
-//         .catch(err => console.log(err.message))
-// })
+
 
 // // UPLOAD WALL NO PICTURE
 // app.post('/wallNoPicture', (req, res) => {

@@ -39,7 +39,6 @@ class ToolBarNotes extends React.Component {
         }        
     }
 
-
     render() {
         const {notes} = this.props
         if (!notes) {

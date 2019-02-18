@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 
 import UserPicture from './UserPicture'
 import ToolBarNotes from './ToolBarNotes'
+import AddNote from './AddNote'
 
 class UserToolBar extends React.Component {
     constructor() {
@@ -30,6 +31,9 @@ class UserToolBar extends React.Component {
                 <div className="user-header toolBar-menu">
                     <UserPicture />
                     <div className="user-header__name">{user.username}</div>
+                </div>
+                <div className="user-header toolBar-menu">
+                    <AddNote />
                 </div>
                 <div className="user-folders toolBar-menu" onClick={this.showNotes}>
                     <img className="toolBar__icon" src='./assets/notes.png' />

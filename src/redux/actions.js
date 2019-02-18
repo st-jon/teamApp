@@ -32,7 +32,7 @@ export async function getNotes() {
     }
 }
 
-export async function getFiles(type){
+export async function getFiles(type) {
     const {data} = await axios.post('/files', {type})
     return {
         type: 'GET_FILES',
@@ -40,6 +40,22 @@ export async function getFiles(type){
         noteType: type
     }
 } 
+
+export function showFileInBoard(id, type) {
+    return {
+        type: 'SHOW_FILE_IN_BOARD',
+        noteType: type,
+        id
+    }
+}
+
+export async function addNote(file, noteType) {
+    return {
+        type: 'ADD_NOTE',
+        noteType,
+        file
+    }
+}
 
 // export async function receiveFriends() {
 //     const {data} = await axios.get('/getfriends')

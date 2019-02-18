@@ -3,9 +3,10 @@ DROP TABLE if EXISTS notes;
 CREATE TABLE notes(
     id SERIAL PRIMARY KEY,
     author_id INTEGER NOT NULL REFERENCES users(id),
-    note_type VARCHAR UNIQUE NOT NULL CHECK (note_type <> ''),
-    note TEXT NOT NULL CHECK (note <> ''),
-    title VARCHAR (200) NOT NULL CHECK (title <> ''),
+    team VARCHAR(200),
+    note_type VARCHAR NOT NULL CHECK (note_type <> ''),
+    note TEXT,
+    title VARCHAR(200) NOT NULL CHECK (title <> ''),
     picture VARCHAR(400),
     link VARCHAR(400),
     link_content TEXT,
