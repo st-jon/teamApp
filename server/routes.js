@@ -13,7 +13,7 @@ const publicPath = path.join(__dirname, '..', '/index.html')
 
 const app = express.Router()
 
-const {addUser, getUserByEmail, getUserById, updateUserById, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes, addNotesWithPicture, addNotesWithLink, addNotesWithAudio, addNotesWithVideo} = require('../db/db')
+const {addUser, getUserByEmail, getUserById, updateUserById, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes, addNotesWithPicture, addNotesWithLink, addNotesWithAudio, addNotesWithVideo, searchFriendByName} = require('../db/db')
 const {hashPassword, checkPassword} = require('../utils/crypt')
 const {validateForm} = require('../utils/utils')
 const {upload} = require('./s3')
@@ -83,6 +83,13 @@ app.get('/notes', async(req, res) => {
 app.post('/files', async(req, res) => {
     const files = await getFilesByNotesType(req.session.userID, req.body.type)
     res.json(files)
+})
+
+// SEARCH FRIENDS
+app.get('/search/:text', (req, res) => {
+    searchFriendByName(`${req.params.text}%`)
+        .then(data => res.json(data))  
+        .catch(err => console.log(err.message))
 })
 
 // ADD NOTE WITH PICTURE
@@ -163,12 +170,7 @@ app.post('/notesWithVideo', uploader.single('file'), upload, (req, res) => {
 //     } 
 // })
 
-// // SEARCH FRIENDS
-// app.get('/search/:text', (req, res) => {
-//     searchFriendByName(`${req.params.text}%`)
-//         .then(data => res.json(data))
-//         .catch(err => console.log(err.message))
-// })
+
 
 // // GET FRIEND STATUS
 // app.get('/status/:id', (req, res) => {

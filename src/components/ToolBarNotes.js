@@ -49,7 +49,7 @@ class ToolBarNotes extends React.Component {
             {notes.map((noteType, i) => (
                 <div key={i}>
                     <div className="toolBarNotes__folder" onClick={this.showFiles.bind(this, i, noteType['note_type'])} >
-                        <img className="toolBarNotes__icon" src="./assets/notes.png"/>
+                        <img className="toolBarNotes__icon" src="/assets/notes.png"/>
                         <div className="toolBarNotes__title">{noteType['note_type']}</div>
                     </div> 
                     {this.state.visible[i] === noteType['note_type'] && <ToolBarFiles index={i}/>}

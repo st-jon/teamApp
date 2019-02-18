@@ -11,6 +11,12 @@ body, html {
     font-family: arial;
 }
 
+a,
+a:active {
+    text-decoration: none;
+    color: #000;
+}
+
 
 /* WELCOME PAGE */
 
@@ -211,6 +217,11 @@ body, html {
     cursor: pointer;
 }
 
+.content__container {
+    display: flex;
+    height: 95vh;
+}
+
 
 /*  HEADER  */
 
@@ -218,9 +229,11 @@ body, html {
 .header__container {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     height: 5vh;
     width: 100vw;
     background: rgb(0, 64, 201);
+    position: relative;
 }
 
 .title__header {
@@ -290,11 +303,52 @@ body, html {
     margin-right: 2vw;
 }
 
+
 .greeting__user {
     font-family: 'Amatic SC', cursive;
     font-size: 2rem;
     color: #FFF;
-    margin-right: 1vw;
+    margin: 0 1vw;
+}
+
+.menu__container {
+    position: absolute;
+    top: 5vh;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 10vw;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 5vh;
+    font-family: arial;
+    font-size: 1.2rem;
+    /* font-weight: bold; */
+    text-align: center;
+    line-height: 5vh;
+    background: #fff;
+    padding-right: 5px;
+    color: rgb(0, 64, 201);
+    cursor: pointer;
+    border: 1px solid rgb(0, 64, 201);
+    border-top: none;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.menu-item:hover {
+    background: #E9EBEE;
+}
+
+.menu-item .user__icon {
+    height: 3vh;
+    width: 3vh;
+    margin: 0 10px;
 }
 
 
@@ -563,6 +617,9 @@ body, html {
     border-top-right-radius: 5px;
     border-left: none;
     position: relative;
+    background: #FFF;
+    z-index: 800;
+
 }
 
 .addNote-menu__header__container {
@@ -607,6 +664,7 @@ body, html {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    z-index: 800;
 }
 
 .addNote-input {
@@ -677,3 +735,278 @@ body, html {
 .addNote__btn {
     background: rgb(250, 250, 250);
 }
+
+
+/*   SEARCHBAR   */
+
+
+.search__container {
+    display: flex;
+    align-items: center;
+    height: 3vh;
+    position: relative;
+}
+
+.searchBar {
+    border: none;
+    outline: none;
+    color: #E9EBEE;
+    font-family: 'Amatic SC', cursive;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: .2rem;
+    background: rgb(0, 64, 201);
+    width: 300px;
+    height: 3vh;
+    margin-left: 10px;
+    border-bottom: 1px solid #E9EBEE;
+}
+
+.searchBar::placeholder {
+    color: #E9EBEE;
+    font-size: 1.4rem;
+    font-weight: 300;
+}
+
+.searchBar:not(:placeholder-shown) {
+    border-bottom: 1px solid rgb(0, 64, 201);
+}
+
+.result__container {
+    position: absolute;
+    top: 4vh;
+    left: 0;
+    width: 302px;
+    background: #FFF;
+    z-index: 2000;
+
+}
+
+.result {
+    display: flex;
+    align-items: center;
+    height: 7vh;
+    padding-left: 30px;
+    color: rgb(0, 64, 201);
+    font-size: 2rem;
+    font-family: 'Amatic SC', cursive;
+    letter-spacing: .2rem;
+    border: 1px solid rgb(0, 64, 201);
+    border-top: none;
+}
+
+.result .userPicture {
+    height: 5vh;
+    width: 5vh;
+}
+
+.result .user__icon {
+    height: 5vh;
+    width: 5vh;
+}
+
+.result-name {
+    font-weight: bold;
+    font-size: 1.6rem;
+
+}
+
+
+/*   BOARD   */
+
+
+.board__container {
+    display: flex;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    width: 80vw;
+    height: 95vh;
+    overflow: scroll;
+}
+
+.noteBoard__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 30vh;
+    width: 15vw;
+    min-width: 220px;
+    margin: 10px 20px;
+}
+
+.noteBoard__header {
+    display: flex;
+    justify-content: space-between;
+    height: 2vh;
+}
+
+.header__left__noteBoard {
+    display: flex;
+    justify-content: flex-start;
+    width: 5vw;
+    height: 2vh;
+}
+
+.header__left__noteBoard .noteBoard__icon {
+    margin-right: 10px;
+}
+
+.header__right__noteBoard {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 5vw;
+    height: 2vh;
+}
+
+
+.noteBoard__icon {
+    height: 2vh;
+    width: 2vh;
+    cursor: pointer;
+}
+
+.noteBoard__footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 2vh;
+}
+
+.noteBoard {
+    display: flex;
+    background: #ffe65a;
+    box-shadow: 9px 13px 22px -8px  rgba(0,0,0,0.7);
+}
+
+.noteBoard__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 26vh;
+    overflow: scroll;
+}
+
+.noteBoard__note__title {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.noteBoard__note__image {
+    height: 10vh;
+    width: auto;
+    object-fit: contain;
+    margin-top: 10px;
+}
+
+.noteBoard__note__text {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1rem;
+    margin: 20px;
+}
+
+.linkBoard {
+    display: flex;
+    background: #E9EBEE;
+    box-shadow: 9px 13px 22px -8px  rgba(0,0,0,0.7);
+}
+
+.linkBoard__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 26vh;
+    overflow: scroll;
+}
+
+.linkBoard__note__title {
+    font-family: "Futura","Trebuchet MS",Arial,sans-serif; 
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+.linkBoard__note__image {
+    height: 10vh;
+    width: auto;
+    object-fit: contain;
+    margin-top: 10px;
+}
+
+.linkBoard__note__text {
+    font-family: "futura";
+    font-size: 1rem;
+    margin: 20px;
+}
+
+.linkBoard__note__publisher {
+    font-family: "futura";
+    font-size: 1rem;
+}
+
+.soundBoard__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 26vh;
+    overflow: scroll;
+}
+
+.soundBoard {
+    display: flex;
+    background: rgb(210, 223, 243);
+    box-shadow: 9px 13px 22px -8px  rgba(0,0,0,0.7);
+}
+
+.soundBoard__note__player {
+    width: 200px;
+   
+}
+
+.soundBoard__note__player::-webkit-media-controls-panel {
+    background-color:rgb(210, 223, 243);
+    
+}
+
+.soundBoard__note__title {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.videoBoard__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 26vh;
+    overflow: scroll;
+}
+
+
+.videoBoard {
+    display: flex;
+    background: rgb(243, 220, 210);
+    box-shadow: 9px 13px 22px -8px  rgba(0,0,0,0.7);
+}
+
+.videoBoard__note__title {
+    font-family: 'Julius Sans One', sans-serif;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.videoBoard__note__videoPlayer {
+    width: 200px;
+    height: 140px;
+}
+
+.videoBoard__note__title {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 2rem;
+    text-align: center;
+}
+

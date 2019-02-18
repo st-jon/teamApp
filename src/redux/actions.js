@@ -49,6 +49,13 @@ export function showFileInBoard(id, type) {
     }
 }
 
+export function hideFileInBoard(id) {
+    return {
+        type: 'HIDE_FILE_IN_BOARD',
+        id
+    }
+}
+
 export async function addNote(file, noteType) {
     return {
         type: 'ADD_NOTE',

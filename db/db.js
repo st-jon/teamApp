@@ -85,6 +85,16 @@ module.exports.getFilesByNotesType = (id, type) => {
     )
 }
 
+// SEARCH FOR FRIENDS
+module.exports.searchFriendByName = (text) => {
+    return db.query(`
+        SELECT id, username, first_name, last_name,  genre, user_picture, user_status 
+        FROM users
+        WHERE first_name LIKE $1
+        OR last_name LIKE $1`,
+        [text]
+    )
+}
 
 // INSERT DEFAULT VALUES IN NOTES
 module.exports.insertDefaultIntoNotes = (id) => {
@@ -213,14 +223,7 @@ module.exports.addNotesWithVideo = (id, folder, title, video) => {
 //     )
 // }
 
-// // SEARCH FOR FRIENDS
-// module.exports.searchFriendByName = (text) => {
-//     return db.query(`
-//         SELECT first_name, last_name, id, profil_pic FROM users
-//         WHERE first_name LIKE $1`,
-//         [text]
-//     )
-// }
+
 
 // // GET LAST 10 MESSAGES
 // module.exports.getMessages = () => {

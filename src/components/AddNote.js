@@ -128,6 +128,7 @@ class AddNote extends React.Component {
             .then(({data}) => this.props.dispatch(addNote(data.rows[0], data.rows[0]['note_type'])))
             .catch(err => err.message)
         }
+        this.setState({addNoteMenuIsVisible: false})
     }
 
     render() {
@@ -138,25 +139,25 @@ class AddNote extends React.Component {
         return (
             <div className="addNote__container">
                 <div className="addNote__container__menu" onClick={this.showAddNoteMenu}>
-                    <img className="addNote__icon" src="./assets/plus.png" />
+                    <img className="addNote__icon" src="/assets/plus.png" />
                     <div className="addNote__title">Create New Note</div>
                 </div>
                {this.state.addNoteMenuIsVisible &&
                 <div className="addNote-menu__container">
                     <div className="addNote-menu__header__container" onClick={this.toggleNoteType.bind(this, 'note')}>
-                        <img className="addNote-menu__icon" src="./assets/take-notes.png" />
+                        <img className="addNote-menu__icon" src="/assets/take-notes.png" />
                         <div className="addNote-menu__title">Note</div>
                     </div>
                     <div className="addNote-menu__header__container" onClick={this.toggleNoteType.bind(this, 'link')}>
-                        <img className="addNote-menu__icon" src="./assets/link.png"/>
+                        <img className="addNote-menu__icon" src="/assets/link.png"/>
                         <div className="addNote-menu__title">Link</div>
                     </div>
                     <div className="addNote-menu__header__container" onClick={this.toggleNoteType.bind(this, 'video')}>
-                        <img className="addNote-menu__icon" src="./assets/movie.png"/>
+                        <img className="addNote-menu__icon" src="/assets/movie.png"/>
                         <div className="addNote-menu__title">Video</div>
                     </div>
                     <div className="addNote-menu__header__container" onClick={this.toggleNoteType.bind(this, 'sound')}>
-                        <img className="addNote-menu__icon" src="./assets/mic1.png"/>
+                        <img className="addNote-menu__icon" src="/assets/mic1.png"/>
                         <div className="addNote-menu__title">Sound</div>
                     </div>
                 
@@ -166,7 +167,7 @@ class AddNote extends React.Component {
                             <input className="addNote-input__title" onChange={this.handleChange} type="text" name="newNoteTitle" placeholder="title" autoFocus></input>
                             <textarea className="addNote-input" onChange={this.handleChange} type="text" name="newNote" rows="8" cols="40" autoComplete="off" placeholder="type here..." />
                             <div className="addNote-chooseFile__container">
-                                <img className="addNote-menu__icon" src="./assets/addpicture.png" />
+                                <img className="addNote-menu__icon" src="/assets/addpicture.png" />
                                 <input ref={this.input} id="addNote-pics__input" className="addNote-pics__input" type="file" />
                                 <span ref={this.fakeInput} onClick={this.chooseFile} title="choose a file to upload" id="addNote-pics__input__fake">choose an image</span>
                             </div>

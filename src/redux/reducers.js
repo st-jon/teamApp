@@ -37,11 +37,16 @@ export default function(state = {}, action) {
         state = {...state, board: filteredBoard}
     }
 
+    if (action.type === 'HIDE_FILE_IN_BOARD') {
+        state = {
+            ...state,
+            board: state.board.filter(file => file.id !== action.id)      
+        }
+    }
+
     if (action.type === "ADD_NOTE") {
         const index = state.notes.findIndex(note => note['note_type'] === action.noteType)
         const newArray = [...state.notes[index].files, action.file]
-        console.log(newArray)
-        // state.notes[index].files = newArray
         state = {
             ...state,
             notes: state.notes.map(

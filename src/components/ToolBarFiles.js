@@ -22,7 +22,7 @@ class ToolBarFiles extends React.Component {
             <div className="toolBarFiles__container">
             {notes[this.props.index].files.map(file => (
                 <div key={file.id} className="toolBarFiles__folder" onClick={this.showFile.bind(this, file.id, file['note_type'])}>
-                    <img className="toolBarFiles__icon" src="./assets/file.png"/>
+                    <img className="toolBarFiles__icon" src="/assets/file.png"/>
                     <div className="toolBarFiles__title">{file.title}</div>
                 </div> 
             ))}

@@ -6,6 +6,8 @@ import {AddloggedinUser, getNotes} from '../redux/actions'
 
 import Header from './Header'
 import UserTooBar from './UserToolBar'
+import Board from './Board'
+import MemberPage from './MemberPage'
 
 class App extends React.Component {
     constructor() {
@@ -38,11 +40,37 @@ class App extends React.Component {
         }
         return (
             <BrowserRouter>
-                <div className="app__container">
-                    <Header />
-                    <UserTooBar />
-                    <div onClick={this.logout} className="logout">Logout</div>
-                </div>  
+                <div>
+                <Route 
+                    exact path="/"
+                    render={() => (
+                    <div className="app__container">
+                        <Header />
+                        <div className="content__container">
+                            <UserTooBar />
+                            <Board />
+                        </div>
+                        
+                    </div>
+                    )}
+                />  
+                <Route 
+                    exact path="/user/:id"
+                    render={props => (
+                    <div className="app__container">
+                        <Header />
+                        <div className="content__container">
+                            <UserTooBar 
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                            <MemberPage />
+                        </div>
+                    </div>
+                    )}
+                />
+                </div>
             </BrowserRouter>      
         )
     }
@@ -53,3 +81,4 @@ const mapStateToProps = function(state) {
 }
 
 export default connect(mapStateToProps)(App)
+
