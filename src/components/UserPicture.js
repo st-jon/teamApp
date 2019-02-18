@@ -13,13 +13,14 @@ class UserPicture extends React.Component {
         let member
         if (this.props.otherUser) {
             member = this.props.otherUser
-        }        
+            
+        } 
         return (
             <div className="user-picture">
                 {!member && 
                     <div>
                         {!user['user_picture'] && (!user.genre || user.genre === 'intersex')&& 
-                        <div className="defaut_picture">{user['first_name'].charAt(0)}{user['last_name'].charAt(0)}</div>}
+                        <div className="default__picture">{user['first_name'].charAt(0)}{user['last_name'].charAt(0)}</div>}
                         {!user['user_picture'] && user.genre === 'man' &&
                         <img className="user__icon" src="/assets/icons8-user-male-100.png" />}
                         {!user['user_picture'] && user.genre === 'woman' &&
@@ -30,7 +31,7 @@ class UserPicture extends React.Component {
                 {member && 
                     <div>
                         {!member['user_picture'] && (!member.genre || member.genre === 'intersex')&& 
-                        <div className="defaut_picture">{member['first_name'].charAt(0)}{member['last_name'].charAt(0)}</div>}
+                        <div className="default__picture">{member['first_name'].charAt(0)}{member['last_name'].charAt(0)}</div>}
                         {!member['user_picture'] && member.genre === 'man' &&
                         <img className="user__icon" src="/assets/icons8-user-male-100.png" />}
                         {!member['user_picture'] && member.genre === 'woman' &&

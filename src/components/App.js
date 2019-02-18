@@ -60,12 +60,12 @@ class App extends React.Component {
                     <div className="app__container">
                         <Header />
                         <div className="content__container">
-                            <UserTooBar 
+                            <UserTooBar/>
+                            <MemberPage 
                                 key={props.match.url}
                                 match={props.match}
                                 history={props.history}
                             />
-                            <MemberPage />
                         </div>
                     </div>
                     )}

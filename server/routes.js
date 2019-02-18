@@ -69,6 +69,20 @@ app.post('/updateUserWithPicture', uploader.single('file'), upload, (req, res) =
         .catch(err => console.log(err.message))
 })
 
+// NAVIGATE TO OTHER PROFILE
+app.get('/api/user/:id', (req, res) => {
+    if(req.session.userID == req.params.id) {
+        res.json({ redirectTo: '/'})
+    } else {
+        getUserById(req.params.id)
+        .then(data => res.json(data))
+        .catch(err => {
+            console.log(err.message)
+            res.json({redirectTo: '/'})
+        })
+    } 
+})
+
 app.get('/notes', async(req, res) => {
     const data = await getNotesTypesByAuthor(req.session.userID)
     if (data.rowCount === 0) {

@@ -281,11 +281,12 @@ a:active {
     cursor: pointer;
 }
 
-.defaut_picture {
+.default__picture {
     height: 4vh;
     width: 4vh;
     background: #fff;
     color: rgb(0, 64, 201);
+    border: 1px solid rgb(0, 64, 201);
     border-radius: 50%;
     font-family: 'Amatic SC', cursive;
     font-size: 3rem;
@@ -324,7 +325,8 @@ a:active {
 .menu-item {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
+    align-content: center;
     height: 5vh;
     font-family: arial;
     font-size: 1.2rem;
@@ -351,6 +353,19 @@ a:active {
     margin: 0 10px;
 }
 
+.result .userPicture {
+    height: 4.5vh;
+    width: 4.5vh;
+    margin: 0 10px;
+}
+
+.result .default__picture {
+    height: 4.5vh;
+    width: 4.5vh;
+    line-height: 4.5vh;
+    margin: 0 10px;
+}
+
 
 /*  EDIT USER PROFILE  */
 
@@ -365,6 +380,7 @@ a:active {
     height: 50vh;
     width: 30vw;
     border: 1px solid #E9EBEE;
+    background: #FFF;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
@@ -385,6 +401,7 @@ a:active {
     font-weight: bold;
     align-self: center;
     border: none;
+    background: #FFF;
     border-bottom: 1px solid #BBB;
 }
 
@@ -1010,3 +1027,103 @@ a:active {
     text-align: center;
 }
 
+
+/*   MEMBER PAGE  */
+
+.memberPage__container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    width: 80vw;
+    height: 95vh;
+    overflow: scroll;
+}
+
+.member__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 80vh;
+    width: 40vw;
+    border: 1px solid #E9EBEE;
+    background: #E9EBEE;
+    border-radius: 10px;
+    box-shadow: 9px 13px 22px -8px  rgba(0,0,0,0.7);
+}
+
+.card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 15vh;
+    width: 40vw;
+    background: rgb(0, 64, 201);
+    border: 1px solid rgb(0, 64, 201);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: #FFF;
+}
+
+.member__title {
+    display: flex;
+    width: 20vw;
+    margin-left: 30px;
+}
+
+.card__infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 65vh;
+    width: 40vw;
+    font-size: 2rem;
+    color:#555
+}
+
+.card__status {
+    align-self: center;
+    height: 6vh;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.default__message {
+    font-size: 1.4rem;
+}
+
+.username__title {
+    height: 15vh;
+    margin-left: 30px;
+    font-size: 6rem;
+    font-family: 'Amatic SC', cursive;
+    font-weight: bold;
+    line-height: 15vh;
+}
+
+.member__icon {
+    height: 6vh;
+    width: 6vh;
+    margin: 10px 10px;
+    align-self: flex-start;
+    cursor: pointer;
+}
+
+.member__title .userPicture {
+    align-self: center;
+    margin-top: 10px;
+    height: 12vh;
+    width: 12vh;
+}
+
+.member__title .default__picture {
+    align-self: center;
+    margin-top: 10px;
+    height: 12vh;
+    width: 12vh;
+    font-size: 10rem;
+    line-height: 10vh;
+
+}
