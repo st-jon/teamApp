@@ -32,7 +32,7 @@ module.exports.getUserByEmail = (email) => {
 // GET USER BY ID
 module.exports.getUserById = (id) => {
     return db.query(`
-        SELECT id, username, first_name, last_name, email, genre, user_picture, user_status 
+        SELECT id, username, first_name, last_name, email, genre, user_picture, user_status, current_teamid 
         FROM users
         WHERE id = $1`,
         [id]
@@ -57,6 +57,16 @@ module.exports.getUsersById = (arrayOfId) => {
         FROM users 
         WHERE id = ANY($1)`, 
         [arrayOfId]
+    )
+}
+
+// ADD CURRENT TEAM TO USER
+module.exports.updateUserWithCurrentTeam = (id, teamID) => {
+    return db.query(`
+        UPDATE users
+        SET current_teamID = $2
+        WHERE id = $1`, 
+        [id, teamID]
     )
 }
 
@@ -146,6 +156,88 @@ module.exports.addNotesWithVideo = (id, folder, title, video) => {
     )
 }
 
+module.exports.addTeam = (id, team) => {
+    return db.query(`
+        INSERT INTO teams (team_admin, team)
+        VALUES ($1, $2)
+        RETURNING *`, 
+        [id, team]
+    )
+}
+
+module.exports.addTeamMate = (teamID, teamName, memberID, isAdmin, accepted) => {
+    return db.query(`
+        INSERT INTO teammates (team_id, team_name, member_id, is_admin, accepted)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *`, 
+        [teamID, teamName, memberID, isAdmin, accepted]
+    )
+}
+
+module.exports.getCurrentTeam = (teamID) => {
+    return db.query(`
+        SELECT * FROM teammates
+        WHERE team_id = $1`,
+        [teamID]
+    )
+}
+
+module.exports.getCurrentTeamAndMembers = (teamID) => {
+    return db.query(`
+        SELECT username, first_name, last_name, user_picture, member_id, team_name, accepted, is_admin, team_id
+        FROM teammates
+        JOIN users 
+        ON member_id = users.id
+        WHERE team_id = $1`,
+        [teamID]
+    )
+}
+
+module.exports.getTeams = (id) => {
+    return db.query(`
+        SELECT * FROM teammates
+        WHERE member_id = $1
+        AND accepted = true`,
+        [id]
+    )
+}
+
+module.exports.getMemberByTeam = (id, team) => {
+    return db.query(`
+        SELECT * FROM teammates
+        WHERE member_id = ($1)
+        AND team_id = ($2)`,
+        [id, team]
+    )
+}
+
+// ADD MEMBER REQUEST
+module.exports.addMemberRequest = (memberID, teamID, name) => {
+    return db.query(`
+        INSERT INTO teammates (member_id, team_id, team_name)
+        VALUES ($1, $2, $3)
+        RETURNING *`,
+        [memberID, teamID, name]
+    )
+}
+
+ // DELETE MEMBER REQUEST
+module.exports.cancelMemberRequest = (memberID, teamID) => {
+    return db.query(`
+        DELETE FROM teammates
+        WHERE (member_id = $1 AND team_id = $2)`, 
+        [memberID, teamID]
+    )
+}
+
+module.exports.acceptMemberRequest = (memberID, teamID) => {
+    return db.query(`
+        UPDATE teammates
+        SET accepted = true
+        WHERE member_id = $1 AND team_id = $2`, 
+        [memberID, teamID]
+    )
+}
 
 
 // // ADD PROFILE_PIC

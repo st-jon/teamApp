@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import axios from '../axios'
 
 import UserPicture from './UserPicture'
+import AddMemberButton from './AddMemberButton'
 
 class MemberPage extends React.Component {
     constructor(props) {
@@ -22,7 +23,6 @@ class MemberPage extends React.Component {
     }
 
     render() {
-        
         return(
             <div className="memberPage__container">
                 <div className="member__card">
@@ -31,7 +31,7 @@ class MemberPage extends React.Component {
                         {this.state.username  && <UserPicture  otherUser={this.state}/>}
                         <div className="card__status capitalize username__title">{this.state.username}</div>
                     </div>
-                        <img className="member__icon" src="/assets/add-member.png" />
+                        {this.props.currentTeam && <AddMemberButton memberID={Number(this.props.match.params.id)}/>}
                     </div>
                     <div className="card__infos">
                         <div className="card__status capitalize"><b>First Name:</b> {this.state['first_name']}</div>
@@ -51,7 +51,7 @@ class MemberPage extends React.Component {
 }
 
 const mapStateToProps = function(state) {
-    return {user: state.user}
+    return {user: state.user, currentTeam: state.currentTeam}
 }
 
 export default connect(mapStateToProps)(MemberPage)

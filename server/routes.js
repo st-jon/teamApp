@@ -13,7 +13,7 @@ const publicPath = path.join(__dirname, '..', '/index.html')
 
 const app = express.Router()
 
-const {addUser, getUserByEmail, getUserById, updateUserById, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes, addNotesWithPicture, addNotesWithLink, addNotesWithAudio, addNotesWithVideo, searchFriendByName} = require('../db/db')
+const {addUser, getUserByEmail, getUserById, updateUserById, updateUserWithCurrentTeam, getCurrentTeam, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes, addNotesWithPicture, addNotesWithLink, addNotesWithAudio, addNotesWithVideo, searchFriendByName, addTeam, addTeamMate, getTeams, getTeamsAndStatus, getMemberByTeam, addMemberRequest, acceptMemberRequest, cancelMemberRequest, getCurrentTeamAndMembers} = require('../db/db')
 const {hashPassword, checkPassword} = require('../utils/crypt')
 const {validateForm} = require('../utils/utils')
 const {upload} = require('./s3')
@@ -36,9 +36,6 @@ const uploader = multer({
         fileSize: 20097152
     }
 })
-
-
-
 
 // FIRST WELCOME PAGE 
 app.get('/welcome', (req, res) => {
@@ -67,6 +64,18 @@ app.post('/updateUserWithPicture', uploader.single('file'), upload, (req, res) =
     updateUserById(req.session.userID, req.body.username, req.body.firstname, req.body.lastname, req.body.email, req.body.genre, url)
         .then(data => res.json(data))
         .catch(err => console.log(err.message))
+})
+
+app.post('/addCurrentTeamToUser', (req, res) => {
+    updateUserWithCurrentTeam(req.session.userID, req.body.teamID)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
+app.post('/currentTeamMembers', (req, res) => {
+    getCurrentTeam(req.body.teamID)
+        .then(teams => res.json(teams))
+        .catch(err => console.log('error here',err.message))
 })
 
 // NAVIGATE TO OTHER PROFILE
@@ -122,7 +131,6 @@ app.post('/getBodyLink', (req, res) => {
             const picture = $('meta[property="og:image"]').attr('content')
             const publisher = $('meta[property="og:site_name"]').attr('content')
             const description = $('meta[property="og:description"]').attr('content')
-            console.log(req.body)
             return addNotesWithLink(req.session.userID, req.body.folder, req.body.noteTitle, req.body.url, description, publisher, picture)       
         })
         .then(note => res.json(note))
@@ -145,6 +153,60 @@ app.post('/notesWithVideo', uploader.single('file'), upload, (req, res) => {
         .catch(err => console.log(err.message))
 })
 
+
+// CREATE TEAM
+app.post('/teamCreate', (req, res) => {
+    addTeam(req.session.userID, req.body.team)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
+// ADD TEAMMATE
+app.post('/teamMateCreate', (req, res) => {
+    addTeamMate(req.body.teamID, req.body.teamName, req.body.memberID, req.body.isAdmin, req.body.accepted)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
+// GET TEAMS
+app.get('/teams', (req, res) => {
+    getTeams(req.session.userID)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
+// // GET TEAMS AND STATUS
+app.post('/status/:id', (req, res) => {
+    getMemberByTeam(req.params.id, req.body.teamID)
+        .then(data => {res.json(data)})
+        .catch(err => console.log(err.message))
+})
+
+// GET MEMBERS FROM TEAM
+app.post('/getMembersFromTeam', (req, res) => {
+    getCurrentTeamAndMembers(req.body.id)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
+// // UPDATE MEMBER STATUS
+app.post('/updateMemberStatus', (req, res) => {
+    if (req.body.status === 'Add Member') {
+        addMemberRequest(req.body.memberID, req.body.team, req.body.name)
+            .then(data => res.json(data))
+            .catch(err => console.log(err.message))
+    }
+    else if (req.body.status === 'Join this team') {
+        acceptMemberRequest(req.body.memberID, req.body.team)
+            .then(data => res.json(data))
+            .catch(err => console.log(err.message))
+    }
+    else if (req.body.status === 'Pending... Cancel?' || 'leave this team') {
+        cancelMemberRequest(req.body.memberID, req.body.team)
+            .then(data => res.json(data))
+            .catch(err => console.log(err.message))
+    }
+})
 
 // // UPLOAD PROFILE PICTURE
 // app.post('/upload', uploader.single('file'), upload, (req, res) => {

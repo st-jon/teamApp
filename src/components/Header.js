@@ -6,6 +6,7 @@ import UserPicture from './UserPicture'
 import EditUserProfile from  './EditUserProfile'
 import Search from './Search'
 import Menu from './Menu'
+import TeamSelector from './TeamSelector'
 
 class Header extends React.Component {
     constructor() {
@@ -46,6 +47,7 @@ class Header extends React.Component {
                 </div>
                 <Search />
                 <div className="header__right">
+                    <TeamSelector />
                     <img className="user__icon" src="/assets/notification.png" />
                     <div className="greeting__user">hi {user['first_name']} !</div>
                     <div onClick={this.toggleEditor} className="userpicture__container">

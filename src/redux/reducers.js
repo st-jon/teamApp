@@ -59,10 +59,48 @@ export default function(state = {}, action) {
                     } else {
                         return note
                     }
-                  
                 }
             )
         }
+    }
+
+    // TEAM
+
+    if (action.type === 'ADD_CURRENT_TEAM') {
+        if (action.id ) {
+            const infos = action.teams.filter(team => team['member_id'] === state.user.id)
+            state = { ...state,
+                user: {
+                    ...state.user, 
+                    current_teamid: action.id,
+                    "is_admin": infos[0]['is_admin'],
+                    "team_name": infos[0]['team_name']
+                },
+                currentTeam: action.teams
+            }
+        } else {
+            state = { ...state,
+                user: {
+                    ...state.user,
+                    current_teamid: action.id,
+                    "is_admin": true,
+                    "team_name": ""
+                    
+                },
+                currentTeam: action.team
+            } 
+        }
+    }
+
+    if (action.type === 'ADD_MEMBER_TO_CURRENT_TEAM') {
+        state = {
+            ...state,
+            currentTeam: action.teams
+        }
+    }
+
+    if (action.type === 'GET_TEAMS') {
+        state = { ...state, userTeams: action.teams }
     }
 
     // if (action.type === 'RECEIVE_FRIENDS') {

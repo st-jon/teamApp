@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import UserPicture from './UserPicture'
 import ToolBarNotes from './ToolBarNotes'
@@ -28,10 +29,10 @@ class UserToolBar extends React.Component {
         }
         return (
             <div className="userToolBar__container">
-                <div className="user-header toolBar-menu">
+                <Link to='/' className="user-header toolBar-menu">
                     <UserPicture />
                     <div className="user-header__name">{user.username}</div>
-                </div>
+                </Link>
                 <div className="user-header toolBar-menu">
                     <AddNote />
                 </div>

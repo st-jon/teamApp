@@ -56,13 +56,40 @@ export function hideFileInBoard(id) {
     }
 }
 
-export async function addNote(file, noteType) {
+export function addNote(file, noteType) {
     return {
         type: 'ADD_NOTE',
         noteType,
         file
     }
 }
+
+export async function addCurrentTeam(team) {
+    await axios.post('/addCurrentTeamToUser', {teamID: team})
+    const teams = await axios.post('/currentTeamMembers', {teamID: team})
+    return {
+        type: 'ADD_CURRENT_TEAM',
+        id: team,
+        teams: teams.data.rows
+    }
+}
+
+export async function getTeams() {
+    const {data} = await axios.get('/teams')
+    return {
+        type: 'GET_TEAMS',
+        teams: data.rows
+    }
+}
+
+export async function addNewMemberToCurrentTeam(id) {
+    const teams = await axios.post('/currentTeamMembers', {teamID: id})
+    return {
+        type: 'ADD_MEMBER_TO_CURRENT_TEAM',
+        teams: teams.data.rows
+    }
+}
+
 
 // export async function receiveFriends() {
 //     const {data} = await axios.get('/getfriends')

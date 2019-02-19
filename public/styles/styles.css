@@ -307,9 +307,13 @@ a:active {
 
 .greeting__user {
     font-family: 'Amatic SC', cursive;
+    text-align: right;
     font-size: 2rem;
     color: #FFF;
     margin: 0 1vw;
+    line-height: 5vh;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .menu__container {
@@ -320,12 +324,13 @@ a:active {
     flex-direction: column;
     justify-content: center;
     width: 10vw;
+    box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
 }
 
 .menu-item {
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     align-content: center;
     height: 5vh;
     font-family: arial;
@@ -335,9 +340,9 @@ a:active {
     line-height: 5vh;
     background: #fff;
     padding-right: 5px;
-    color: rgb(0, 64, 201);
+    color: #000;
     cursor: pointer;
-    border: 1px solid rgb(0, 64, 201);
+    border: 1px solid #E9EBEE;
     border-top: none;
     overflow: hidden;
     white-space: nowrap;
@@ -366,6 +371,41 @@ a:active {
     margin: 0 10px;
 }
 
+.space__icon {
+    height: 4vh;
+    width: 4vh;
+    margin-right: 10px;
+}
+
+.teamCreate__container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    top: 3px;
+    right: 10vw;
+    height: 20vh;
+    background: #fff;
+    border: 1px solid #E9EBEE;
+    border-right: none;
+    border-top: none;
+    box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
+}
+
+.input-teamCreate {
+    font-size: 1rem;
+    width: 10vw;
+    height: 3vh;
+    padding: 2px;
+    margin: 2px;
+    font-weight: bold;
+    align-self: center;
+    border: none;
+    outline: none;
+    background: #FFF;
+    border-bottom: 1px solid #BBB;
+}
+
 
 /*  EDIT USER PROFILE  */
 
@@ -378,7 +418,7 @@ a:active {
     top: 5vh;
     right: 0;
     height: 50vh;
-    width: 30vw;
+    width: 20vw;
     border: 1px solid #E9EBEE;
     background: #FFF;
     border-bottom-left-radius: 5px;
@@ -394,7 +434,7 @@ a:active {
 
 .input-edit {
     font-size: 1rem;
-    width: 20vw;
+    width: 15vw;
     height: 3vh;
     padding: 2px;
     margin: 2px;
@@ -422,7 +462,7 @@ a:active {
 }
 
 .image-upload__show {
-    width: 20vw;
+    width: 15vw;
     height: 3vh;
     font-size: 1rem;
     color: #666;
@@ -430,7 +470,6 @@ a:active {
     line-height: 3vh;
     padding-left: 2px;
     cursor: text;
-    width: 20vw;
     overflow: hidden;
     white-space: nowrap;
     cursor: pointer;
@@ -444,7 +483,7 @@ a:active {
     line-height: 3vh;
     padding-left: 2px;
     cursor: text;
-    width: 18vw;
+    width: 13vw;
     overflow: hidden;
     white-space: nowrap;
     cursor: pointer;
@@ -796,7 +835,7 @@ a:active {
     width: 302px;
     background: #FFF;
     z-index: 2000;
-
+    box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
 }
 
 .result {
@@ -804,11 +843,11 @@ a:active {
     align-items: center;
     height: 7vh;
     padding-left: 30px;
-    color: rgb(0, 64, 201);
+    color: #000;
     font-size: 2rem;
     font-family: 'Amatic SC', cursive;
     letter-spacing: .2rem;
-    border: 1px solid rgb(0, 64, 201);
+    border: 1px solid #E9EBEE;
     border-top: none;
 }
 
@@ -940,7 +979,7 @@ a:active {
 }
 
 .linkBoard__note__title {
-    font-family: "Futura","Trebuchet MS",Arial,sans-serif; 
+    font-family: 'Permanent Marker', cursive;
     font-size: 1.8rem;
     text-align: center;
 }
@@ -989,8 +1028,8 @@ a:active {
 }
 
 .soundBoard__note__title {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 2rem;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.8rem;
     text-align: center;
 }
 
@@ -1011,20 +1050,14 @@ a:active {
 }
 
 .videoBoard__note__title {
-    font-family: 'Julius Sans One', sans-serif;
-    font-size: 2rem;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.8rem;
     text-align: center;
 }
 
 .videoBoard__note__videoPlayer {
     width: 200px;
     height: 140px;
-}
-
-.videoBoard__note__title {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 2rem;
-    text-align: center;
 }
 
 
@@ -1126,4 +1159,53 @@ a:active {
     font-size: 10rem;
     line-height: 10vh;
 
+}
+
+
+/*  TEAM SELECTOR */
+
+.teamSelector__container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+}
+
+.teamSelectorResult__container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    top: 34px;
+    right: 0;
+    width: 15vh;
+    border: 1px solid #E9EBEE;
+    z-index: 2000;
+    box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
+}
+
+.teamSelector__item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 5vh;
+    font-family: arial;
+    font-size: 1.4rem;
+    width: 15vh;
+    text-align: center;
+    line-height: 5vh;
+    background: #fff;
+    padding-left: 5px;
+    color: #000;
+    cursor: pointer;
+    border: 1px solid #E9EBEE;
+    border-top: none;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.teamSelector__item:hover {
+    background: #E9EBEE;
 }

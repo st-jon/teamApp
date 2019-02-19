@@ -2,12 +2,13 @@ import React from 'react'
 import axios from '../axios'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {AddloggedinUser, getNotes} from '../redux/actions'
+import {AddloggedinUser, getNotes, getTeams} from '../redux/actions'
 
 import Header from './Header'
 import UserTooBar from './UserToolBar'
 import Board from './Board'
 import MemberPage from './MemberPage'
+import MyTeams from './MyTeams'
 
 class App extends React.Component {
     constructor() {
@@ -25,6 +26,7 @@ class App extends React.Component {
     componentDidMount() {
         this.props.dispatch(AddloggedinUser())
         this.props.dispatch(getNotes())
+        this.props.dispatch(getTeams())
     }
 
     logout() {
@@ -62,6 +64,22 @@ class App extends React.Component {
                         <div className="content__container">
                             <UserTooBar/>
                             <MemberPage 
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        </div>
+                    </div>
+                    )}
+                />
+                <Route 
+                    exact path="/myTeams"
+                    render={props => (
+                    <div className="app__container">
+                        <Header />
+                        <div className="content__container">
+                            <UserTooBar/>
+                            <MyTeams 
                                 key={props.match.url}
                                 match={props.match}
                                 history={props.history}
