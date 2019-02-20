@@ -219,6 +219,7 @@ a:active {
 
 .content__container {
     display: flex;
+    justify-content: space-between;
     height: 95vh;
 }
 
@@ -323,8 +324,9 @@ a:active {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 10vw;
+    width: 15vw;
     box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
+    z-index: 2000;
 }
 
 .menu-item {
@@ -378,26 +380,53 @@ a:active {
 }
 
 .teamCreate__container {
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+
+    z-index: 1000;
+}
+
+.black__Sreen {
+    background: #000;
+    opacity: .5;
+    height: 100vh;
+    width: 100vw;
+}
+
+.modal {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    top: 3px;
-    right: 10vw;
-    height: 20vh;
-    background: #fff;
-    border: 1px solid #E9EBEE;
-    border-right: none;
-    border-top: none;
-    box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
+    width: 40vw;
+    height: 50vh;
+    background: #FFF;
+    border: 1px solid #FFF;
+    border-radius: 10px;
+}
+
+.closeModal__icon {
+    height: 3vh;
+    width: 3vh;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
 }
 
 .input-teamCreate {
     font-size: 1rem;
-    width: 10vw;
+    width: 30vw;
     height: 3vh;
-    padding: 2px;
-    margin: 2px;
+    margin-bottom: 30px;
     font-weight: bold;
     align-self: center;
     border: none;
@@ -424,6 +453,7 @@ a:active {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
+    z-index: 2000;
 }
 
 .form-group__edit {
@@ -1087,7 +1117,7 @@ a:active {
 
 .card__header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     height: 15vh;
     width: 40vw;
@@ -1137,8 +1167,8 @@ a:active {
 }
 
 .member__icon {
-    height: 6vh;
-    width: 6vh;
+    height: 3vh;
+    width: 3vh;
     margin: 10px 10px;
     align-self: flex-start;
     cursor: pointer;
@@ -1200,7 +1230,6 @@ a:active {
     padding-left: 5px;
     color: #000;
     cursor: pointer;
-    border: 1px solid #E9EBEE;
     border-top: none;
     overflow: hidden;
     white-space: nowrap;
@@ -1209,3 +1238,388 @@ a:active {
 .teamSelector__item:hover {
     background: #E9EBEE;
 }
+
+
+/* MEMBER BUTTON */
+
+.addMemberButton__container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px solid #E9EBEE;
+    border-radius: 5px;
+    height: 40px;
+    width: 130px;
+    background:  #FFF;
+    box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
+    cursor: pointer;
+}
+
+.addMemberButton__container:hover {
+    background: rgb(240, 240, 240)
+}
+
+.addMemberButton {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.addMemberButton__message {
+    color: #000;
+    font-size: 1.4rem;
+    font-family: 'Amatic SC', cursive;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+/*  MY TEAM  */
+
+
+.teams__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: center;
+    width: 80vw;
+    height: 95vh;
+    overflow: scroll;
+}
+
+.myTeam__icon {
+    align-self: flex-start;
+    height: 2.5vh;
+    margin-left: 10px;
+    margin-top: 8px;
+    width: auto;
+}
+
+.team__container {
+    display: flex;
+    justify-content: flex-start;
+    width: 80vw;
+    cursor: pointer;
+}
+
+.team__name {
+    position: relative;
+    display: flex;
+    margin: 20px;
+    width: 5vw;
+    margin-right: 50px;
+    font-size: 3rem;
+    line-height: 3rem;
+    font-family: 'Amatic SC', cursive;
+    font-weight: bold;
+}
+
+.admin__icon__notification {
+    position: absolute;
+    top: 0;
+    left: -15px;
+    height: 2vh;
+    width: 2vh;
+}
+
+.teamMember__container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80vw;
+    /* border-left: 1px solid #E9EBEE;
+    border-bottom: 1px solid #E9EBEE; */
+}
+
+.teamMember__username {
+    font-size: 1.4rem;
+}
+
+.teamMember__name {
+    font-size: 1.4rem;
+}
+
+.teamMember__card {
+    display: flex;
+    flex-direction: column;
+    height: 20vh;
+    width: 20vw;
+}
+
+.teamMember__header {
+    display: flex;
+    margin-top: 50px;
+    margin-right: 15px;
+    margin-bottom: 30px;
+
+}
+
+.teamMember__picture .userPicture {
+    height: 6vh;
+    width: 6vh;
+}
+
+.teamMember__picture .user__icon {
+    height: 6vh;
+    width: 6vh;
+}
+
+.teamMember__picture .default__picture {
+    height: 5vh;
+    width: 5vh;
+    font-size: 4rem;
+    line-height: 5vh;
+}
+
+.teamMember__infos {
+    margin-left: 10px;
+}
+
+
+/*   TEAM MEMBER TOOL BAR   */
+
+.teamMemberToolBar__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    width: 10vw;
+    height: 95vh;
+    align-self: flex-end;
+    background: #E9EBEE;
+}
+
+.teamMemberToolBar__title {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 10vh;
+    font-size: 3rem;
+    line-height: 3rem;
+    font-family: 'Amatic SC', cursive;
+    font-weight: bold;
+    text-align: center;
+    width: 10vw;
+    border-bottom: 1px solid #fff;
+}
+
+.teamMemberToolBar__member__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: flex-start;
+    height: 75vh;
+    width: 10vw;
+    padding: 20px 5px;
+}
+
+.teamMemberToolBar__member {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.teamMemberToolBar__member:hover {
+    background: #FFF;
+}
+
+.teamMemberToolBar__container .user__icon {
+    position: relative;
+    height: 6vh;
+    width: 6vh;
+    margin-top: 5px;
+}
+
+.teamMemberToolBar__container .userPicture {
+    position: relative;
+    height: 6vh;
+    width: 6vh;
+}
+
+.teamMemberToolBar__container .default__picture {
+    position: relative;
+    height: 4.5vh;
+    width: 4.5vh;
+    font-size: 3.6rem;
+    line-height: 4vh;
+    margin: 10px 5px;
+}
+
+.teamMemberToolBar__member__username {
+    font-size: 1.2rem;
+    margin-left: 10px;
+}
+
+.online__alert__container {
+    position: relative;
+}
+
+.online__alert {
+    position: absolute;
+    top: 5px;
+    left: 10;
+    height: 1vh;
+    width: 1vh;
+    border-radius: 50%;
+    background: rgb(25, 187, 4);
+}
+
+
+/*  CHAT  */
+
+.chat__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80vw;
+    height: 95vh;
+    overflow: scroll;
+}
+
+.screen__container {
+    width: 60vw;
+    height: 65vh;
+    padding: 15px 2vw;
+    padding-left: 1vw;
+    overflow: scroll;
+}
+
+.chat__messagearea {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.input__chat {
+    outline: none;
+    resize: none;
+    background: none;
+    width: 50vw;
+    height: 15vh;
+    color: #000;
+    border: 1px solid #E9EBEE;
+    background: #E9EBEE;
+}
+
+.input__chat::placeholder {
+    color: #000;
+}
+
+.btn__chat__container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px solid #E9EBEE;
+    border-radius: 5px;
+    height: 40px;
+    width: 130px;
+    margin: 10px;
+    margin-bottom: 20px;
+    background: #FFF;
+    box-shadow: -4px 5px 14px -5px rgba(0,0,0,0.35);
+    cursor: pointer;
+}
+
+.btn__chat__container:hover {
+    background: rgb(240, 240, 240);
+}
+
+.btn__chat {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    color: #000;
+    width: 130px;
+    font-size: 3rem;
+    font-family: 'Amatic SC', cursive;
+    font-weight: bold;
+    text-align: center;
+}
+
+.messages__container {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+.message__container {
+    display: flex;
+    justify-content: flex-start;
+    border: 1px solid #E9EBEE;
+    border-radius: 5px;
+    background: #E9EBEE;
+    width: 25vw;
+    margin-top: 10px;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.message__container .userPicture {
+    height: 6vh;
+    width: 6vh;
+}
+
+.message__container .default__picture {
+    height: 4.5vh;
+    width: 4.5vh;
+    font-size: 3.6rem;
+    line-height: 4vh;
+    margin: 10px 5px;
+}
+
+.message__container .user__icon {
+    height: 6vh;
+    width: 6vh;
+    margin-top: 5px;
+}
+
+.yours {
+    align-items: flex-start;
+}
+
+.other {
+    align-items: flex-end;
+}
+
+.blue {
+    background: #6aa4fc;
+}
+
+.green {
+    background: #65ff60;
+}
+
+.message__content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    font-size: 1.4rem;
+}
+
+.message__date {
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 1.2rem;
+    color: rgb(145, 145, 145);
+}
+
+.message__name {
+    font-family: 'Amatic SC', cursive;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.message__text {
+    margin-top: 5px;
+    font-style: italic;
+    text-align: justify;
+    padding: 10px;
+    padding-right: 20px;
+}
+
+
+

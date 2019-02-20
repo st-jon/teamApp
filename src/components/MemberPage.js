@@ -27,10 +27,10 @@ class MemberPage extends React.Component {
             <div className="memberPage__container">
                 <div className="member__card">
                     <div className="card__header">
-                    <div className="member__title">
-                        {this.state.username  && <UserPicture  otherUser={this.state}/>}
-                        <div className="card__status capitalize username__title">{this.state.username}</div>
-                    </div>
+                        <div className="member__title">
+                            {this.state.username  && <UserPicture  otherUser={this.state}/>}
+                            <div className="card__status capitalize username__title">{this.state.username}</div>
+                        </div>
                         {this.props.currentTeam && <AddMemberButton memberID={Number(this.props.match.params.id)}/>}
                     </div>
                     <div className="card__infos">

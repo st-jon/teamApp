@@ -66,7 +66,7 @@ export function addNote(file, noteType) {
 
 export async function addCurrentTeam(team) {
     await axios.post('/addCurrentTeamToUser', {teamID: team})
-    const teams = await axios.post('/currentTeamMembers', {teamID: team})
+    const teams = await axios.post('/getMembersFromTeam', {id: team})
     return {
         type: 'ADD_CURRENT_TEAM',
         id: team,
@@ -83,12 +83,56 @@ export async function getTeams() {
 }
 
 export async function addNewMemberToCurrentTeam(id) {
-    const teams = await axios.post('/currentTeamMembers', {teamID: id})
+    const teams = await axios.post('/getMembersFromTeam', {id})
     return {
         type: 'ADD_MEMBER_TO_CURRENT_TEAM',
         teams: teams.data.rows
     }
 }
+
+// CHAT MESSAGES
+
+export const getOnlineUsers = (onlineUsers) => {
+    return {
+        type: 'GET_ONLINE_USERS',
+        onlineUsers
+    }
+}
+
+export const UpdateOnlineUsers = (newOnlineUsers) => {
+    return {
+        type: 'UPDATE_ONLINE_USERS',
+        newOnlineUsers
+    }
+}
+
+export const deleteOnlineUser = (id) => {
+    return {
+        type: 'DELETE_ONLINE_USER',
+        id
+    }
+}
+
+export const getMessages = (messages) => {
+    return {
+        type: 'GET_MESSAGES',
+        messages
+    }
+}
+
+export const addMessage = (message) => {
+    return {
+        type: 'ADD_MESSAGE',
+        message
+    }
+}
+
+// export const updateMessage = (id) => {
+//     console.log(id) 
+//     return {
+//         type: 'UPDATE_MESSAGES'
+//     }
+// }
 
 
 // export async function receiveFriends() {

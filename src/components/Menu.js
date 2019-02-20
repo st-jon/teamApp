@@ -15,6 +15,7 @@ class Menu extends React.Component {
         this.logout = this.logout.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.showTeamCreator = this.showTeamCreator.bind(this)
+        this.closeTeamCreator = this.closeTeamCreator.bind(this)
         this.submit = this.submit.bind(this)
     }
 
@@ -26,10 +27,14 @@ class Menu extends React.Component {
         this.setState({teamCreatorIsVisible: true})
     }
 
+    closeTeamCreator() {
+        this.setState({teamCreatorIsVisible: false})
+        this.props.showMenu()
+    }
+
     submit() {
         axios.post('/teamCreate', {team: this.team})
             .then(({data}) => {
-                console.log(data)
                 return axios.post('/teamMateCreate', {
                     teamID: data.rows[0].id,
                     teamName: data.rows[0].team,
@@ -39,7 +44,6 @@ class Menu extends React.Component {
                 })
             })
             .then((data) => {
-                console.log(data)
                 this.props.dispatch(getTeams(this.props.id))
                 this.props.dispatch(addCurrentTeam(data.data.rows[0]['team_id']))
             })
@@ -78,14 +82,23 @@ class Menu extends React.Component {
                     <img className="user__icon" src="/assets/logout.png" />
                     Logout
                 </div>
-                {this.state.teamCreatorIsVisible && <div className="teamCreate__container">
-                    <div className="form-group__edit">
-                        <input className="input-teamCreate" type="text" name="team" onChange={this.handleChange} placeholder="team name" autoComplete="off" autoFocus/>
+                {this.state.teamCreatorIsVisible && 
+                    <div className="teamCreate__container">
+                        <div className="black__Sreen"></div>
+                            <div className="modal">
+                                <div>
+                                    <img className="closeModal__icon" onClick={this.closeTeamCreator} src="/assets/close.png" />
+                                </div>
+                                <div className="form-group__edit">
+                                    <input className="input-teamCreate" type="text" name="team" onChange={this.handleChange} placeholder="team name" autoComplete="off" autoFocus/>
+                                </div>
+                                <div className="btn__container">
+                                    <button className="btn" onClick={this.submit}>Create</button>
+                                </div>
+                            </div>
+                        
                     </div>
-                    <div className="btn__container">
-                        <button className="btn" onClick={this.submit}>Create</button>
-                    </div>
-                </div>}
+                }
             </div>
         )
     }

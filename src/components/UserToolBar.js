@@ -31,7 +31,7 @@ class UserToolBar extends React.Component {
             <div className="userToolBar__container">
                 <Link to='/' className="user-header toolBar-menu">
                     <UserPicture />
-                    <div className="user-header__name">{user.username}</div>
+                    <div className="user-header__name">{user.username}  Board</div>
                 </Link>
                 <div className="user-header toolBar-menu">
                     <AddNote />
@@ -41,10 +41,10 @@ class UserToolBar extends React.Component {
                     <div className="toolBar__title"> Notes</div>
                 </div>
                 {this.state.notesAreVisible && <ToolBarNotes />}
-                <div className="user-chat toolBar-menu">
+                <Link to='/chat' className="user-chat toolBar-menu">
                     <img className="toolBar__icon" src='/assets/chat.png' />
                     <div className="toolBar__title"> Chat</div>
-                </div>
+                </Link>
                 <div className="user-mailbox toolBar-menu">
                     <img className="toolBar__icon" src='/assets/mailbox.png' />
                     <div className="toolBar__title"> Mailbox</div>

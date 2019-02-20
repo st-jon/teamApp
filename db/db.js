@@ -51,12 +51,13 @@ module.exports.updateUserById = (id, username, firstName, lastName, email, genre
 }
 
 // GET USERS BY ID
-module.exports.getUsersById = (arrayOfId) => {
+module.exports.getUsersById = (arrayOfId, teamID) => {
     return db.query(`
-        SELECT id, username, first_name, last_name, profil_pic 
+        SELECT id, username, first_name, last_name, genre, user_picture, current_teamid
         FROM users 
-        WHERE id = ANY($1)`, 
-        [arrayOfId]
+        WHERE id = ANY($1)
+        AND current_teamid = $2`, 
+        [arrayOfId, teamID]
     )
 }
 
@@ -184,7 +185,7 @@ module.exports.getCurrentTeam = (teamID) => {
 
 module.exports.getCurrentTeamAndMembers = (teamID) => {
     return db.query(`
-        SELECT username, first_name, last_name, user_picture, member_id, team_name, accepted, is_admin, team_id
+        SELECT username, first_name, last_name, user_picture, genre,  member_id, team_name, accepted, is_admin, team_id
         FROM teammates
         JOIN users 
         ON member_id = users.id
@@ -196,8 +197,7 @@ module.exports.getCurrentTeamAndMembers = (teamID) => {
 module.exports.getTeams = (id) => {
     return db.query(`
         SELECT * FROM teammates
-        WHERE member_id = $1
-        AND accepted = true`,
+        WHERE member_id = $1`,
         [id]
     )
 }
@@ -239,6 +239,29 @@ module.exports.acceptMemberRequest = (memberID, teamID) => {
     )
 }
 
+// GET LAST 10 MESSAGES
+module.exports.getMessages = (teamID) => {
+    return db.query(`
+        SELECT messages.messages, messages.id, messages.created_at, users.first_name, users.last_name, users.username, users.id AS userid, users.genre, users.user_picture
+        FROM messages
+        JOIN users
+        ON users.id = messages.sender_id
+        AND messages.team_id = $1
+        ORDER BY messages.id DESC
+        LIMIT 20`, 
+        [teamID])
+
+}
+
+// ADD NEW MESSAGES
+module.exports.addMessage = (id, team,  message) => {
+    return db.query(`
+        INSERT INTO messages (sender_id, team_id, messages)
+        VALUES ($1, $2, $3)
+        RETURNING *`,
+        [id, team, message]
+    )
+}
 
 // // ADD PROFILE_PIC
 // module.exports.addProfilePic = (id, profilePic) => {
@@ -316,25 +339,3 @@ module.exports.acceptMemberRequest = (memberID, teamID) => {
 // }
 
 
-
-// // GET LAST 10 MESSAGES
-// module.exports.getMessages = () => {
-//     return db.query(`
-//         SELECT messages.messages, messages.id, messages.created_at, users.first_name, users.last_name, users.profil_pic
-//         FROM messages
-//         JOIN users
-//         ON users.id = messages.sender_id
-//         ORDER BY messages.id DESC
-//         LIMIT 10
-//     `)
-// }
-
-// // ADD NEW MESSAGES
-// module.exports.addMessage = (id, message) => {
-//     return db.query(`
-//         INSERT INTO messages (sender_id, messages)
-//         VALUES ($1, $2)
-//         RETURNING *`,
-//         [id, message]
-//     )
-// }

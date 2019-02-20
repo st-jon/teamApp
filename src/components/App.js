@@ -2,6 +2,7 @@ import React from 'react'
 import axios from '../axios'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+
 import {AddloggedinUser, getNotes, getTeams} from '../redux/actions'
 
 import Header from './Header'
@@ -9,6 +10,8 @@ import UserTooBar from './UserToolBar'
 import Board from './Board'
 import MemberPage from './MemberPage'
 import MyTeams from './MyTeams'
+import TeamMemberToolBar from './TeamMemberToolBar'
+import Chat from './Chat'
 
 class App extends React.Component {
     constructor() {
@@ -51,6 +54,7 @@ class App extends React.Component {
                         <div className="content__container">
                             <UserTooBar />
                             <Board />
+                            <TeamMemberToolBar />
                         </div>
                         
                     </div>
@@ -84,6 +88,23 @@ class App extends React.Component {
                                 match={props.match}
                                 history={props.history}
                             />
+                        </div>
+                    </div>
+                    )}
+                />
+                <Route 
+                    exact path="/chat"
+                    render={props => (
+                    <div className="app__container">
+                        <Header />
+                        <div className="content__container">
+                            <UserTooBar/>
+                            <Chat 
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                            <TeamMemberToolBar />  
                         </div>
                     </div>
                     )}

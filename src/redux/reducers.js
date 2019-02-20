@@ -4,7 +4,14 @@ export default function(state = {}, action) {
 
     // USER LOGIN
     if (action.type === 'ADD_LOGGEDIN_USER') {
-        state = {...state, user: action.user}
+        state = {
+            ...state, 
+            user: {
+                ...action.user,
+                "is_admin": false,
+                "team_name": ""
+            }   
+        }
     }
 
     // UPDATE USER
@@ -83,7 +90,7 @@ export default function(state = {}, action) {
                 user: {
                     ...state.user,
                     current_teamid: action.id,
-                    "is_admin": true,
+                    "is_admin": false,
                     "team_name": ""
                     
                 },
@@ -102,6 +109,45 @@ export default function(state = {}, action) {
     if (action.type === 'GET_TEAMS') {
         state = { ...state, userTeams: action.teams }
     }
+
+
+    // CHAT MESSAGES
+
+    if (action.type === 'GET_ONLINE_USERS') {
+        state = {...state, onlineUsers: action.onlineUsers}
+    }
+
+    if (action.type === 'UPDATE_ONLINE_USERS') {
+        state = {
+            ...state, 
+            onlineUsers: [...state.onlineUsers, action.newOnlineUsers]
+        }
+    }
+
+    if (action.type === 'DELETE_ONLINE_USER') {
+        state = {
+            ...state,
+            onlineUsers: state.onlineUsers.filter(user => {
+                return user.id !== action.id
+            })      
+        }
+    }
+
+    if (action.type === 'GET_MESSAGES') {
+        state = {
+            ...state,
+            messages: action.messages
+        }
+    }
+
+    if (action.type === 'ADD_MESSAGE') {
+        state = {
+            ...state,
+            messages: [...state.messages, action.message]
+        }
+    }
+
+
 
     // if (action.type === 'RECEIVE_FRIENDS') {
     //     state = {...state, friends: action.friends}

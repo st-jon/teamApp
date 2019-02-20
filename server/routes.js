@@ -67,9 +67,10 @@ app.post('/updateUserWithPicture', uploader.single('file'), upload, (req, res) =
 })
 
 app.post('/addCurrentTeamToUser', (req, res) => {
+    req.session.userTeam = req.body.teamID
     updateUserWithCurrentTeam(req.session.userID, req.body.teamID)
         .then(data => res.json(data))
-        .catch(err => console.log(err.message))
+        .catch(err => console.log('here', err.message))
 })
 
 app.post('/currentTeamMembers', (req, res) => {

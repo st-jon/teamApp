@@ -1,7 +1,9 @@
 import React from 'react'
 import axios from '../axios'
 import { connect } from 'react-redux'
+import {Link} from 'react-router-dom'
 
+import {initSocket} from '../socket'
 import {addCurrentTeam} from '../redux/actions'
 
 class TeamSelector extends React.Component {
@@ -17,8 +19,9 @@ class TeamSelector extends React.Component {
     componentDidMount() {
         if (this.props.user['current_teamid']) {
             this.props.dispatch(addCurrentTeam(this.props.user['current_teamid']))
+
             if(this.props.user['current_teamid'])
-            this.setState({home:false})
+                this.setState({home:false})
             else {
                 this.setState({home:true})
             }
@@ -28,11 +31,13 @@ class TeamSelector extends React.Component {
     setCurrentTeam(teamID) {
         this.props.dispatch(addCurrentTeam(teamID))
         this.showMenu
+        const io = initSocket()
+        io.emit('subscribe', teamID)
         if (teamID === null) {
             this.setState({home: true})
         }
         else if (teamID) {
-            this.setState({home: false})
+             this.setState({home: false})
         }
     }
 
@@ -55,13 +60,13 @@ class TeamSelector extends React.Component {
                 {this.state.menuIsVisible && 
                     <div className="teamSelectorResult__container">
                         {!this.state.home && 
-                            <div onClick={() => this.setCurrentTeam(null)} className="teamSelector__item">
+                            <div to='/' onClick={() => this.setCurrentTeam(null)} className="teamSelector__item">
                                 <img className="space__icon" src="/assets/home-space.png" />
                                 Home
                             </div>}
                         {userTeams.map(team => {
                             return (
-                                <div key={team.id} onClick={() => this.setCurrentTeam(team.id)} className="teamSelector__item">
+                                <div key={team.id} onClick={() => this.setCurrentTeam(team['team_id'])} className="teamSelector__item">
                                     <img className="space__icon" src="/assets/team-space.png" />
                                     {team['team_name']}
                                 </div>
