@@ -108,20 +108,32 @@ class AddMemberButton extends React.Component {
     }
 
     render() {
+        console.log(this.props.memberGenre)
         return (
         <div>
             {this.props.user['is_admin'] && <div onClick={this.updateMemberStatus} className="addMemberButton__container">
                     <div className="addMemberButton">
-                        {this.state.status === 'Add Member' && this.props.memberID != this.props.user['is_admin'] && <img className="member__icon" src="/assets/add-user-male.png" />}
-                        {this.state.status === 'Pending... Cancel?' && <img className="member__icon" src="/assets/invited-member-male.png" />}
-                        {this.state.status === 'leave this team' && <img className="member__icon" src="/assets/delete-member-male.png" />}
+
+                        {this.state.status === 'Add Member' && this.props.memberID != this.props.user['is_admin'] && this.props.memberGenre === "woman" && <img className="member__icon" src="/assets/add-user-female.png" />}
+                        {this.state.status === 'Add Member' && this.props.memberID != this.props.user['is_admin'] && this.props.memberGenre !== "woman" && <img className="member__icon" src="/assets/add-user-male.png" />}
+
+                        {this.state.status === 'Pending... Cancel?' && this.props.memberGenre === "woman" && <img className="member__icon" src="/assets/invited-member-female.png" />}
+                        {this.state.status === 'Pending... Cancel?' &&  this.props.memberGenre !== "woman" && <img className="member__icon" src="/assets/invited-member-male.png" />}
+
+                        {this.state.status === 'leave this team' && this.props.memberGenre === "woman" && <img className="member__icon" src="/assets/delete-member-female.png" />}
+                        {this.state.status === 'leave this team' && this.props.memberGenre !== "woman" && <img className="member__icon" src="/assets/delete-member-male.png" />}
+
                         <div className="addMemberButton__message">{this.state.status}</div>
                     </div>
                 </div>}
                 {!this.props.user['is_admin'] && this.props.memberID === this.props.user.id && <div onClick={this.updateMemberStatus} className="addMemberButton__container">
                     <div className="addMemberButton">
-                        {this.state.status === 'Join this team'  && <img className="member__icon" src="/assets/accepted-member-male.png" />}
-                        {this.state.status === 'leave this team' && <img className="member__icon" src="/assets/delete-member-male.png" />}
+                        {this.state.status === 'Join this team'  && this.props.memberGenre === "woman" && <img className="member__icon" src="/assets/accepted-member-female.png" />}
+                        {this.state.status === 'Join this team'  && this.props.memberGenre !== "woman" && <img className="member__icon" src="/assets/accepted-member-male.png" />}
+
+                        {this.state.status === 'leave this team' && this.props.memberGenre === "woman" && <img className="member__icon" src="/assets/delete-member-female.png" />}
+                        {this.state.status === 'leave this team' && this.props.memberGenre !== "woman" && <img className="member__icon" src="/assets/delete-member-male.png" />}
+
                         <div className="addMemberButton__message">{this.state.status}</div>
                     </div>
                 </div>}

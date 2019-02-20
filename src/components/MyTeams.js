@@ -22,7 +22,6 @@ class MyTeams extends React.Component {
     showTeam(id) {
         axios.post('/getMembersFromTeam', {id})
             .then(({data}) => {
-                console.log(data)
                 let teamMember = []
                 data.rows.map(team => {
                     teamMember.push(team)
@@ -66,7 +65,7 @@ class MyTeams extends React.Component {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {!member['is_admin'] && <AddMemberButton memberID={member['member_id']} />}
+                                                {!member['is_admin'] && <AddMemberButton memberID={member['member_id']} memberGenre={member.genre} />}
                                             </div>    
                                         )
                                     })}
@@ -80,7 +79,7 @@ class MyTeams extends React.Component {
 }
 
 const mapStateToProps = function(state) {
-    return {userTeams: state.userTeams, currentTeam : state.currentTeam}
+    return {user: state.user, userTeams: state.userTeams, currentTeam : state.currentTeam}
 }
 
 export default connect(mapStateToProps)(MyTeams)
