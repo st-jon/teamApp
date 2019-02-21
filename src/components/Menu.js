@@ -83,14 +83,14 @@ class Menu extends React.Component {
                     Logout
                 </div>
                 {this.state.teamCreatorIsVisible && 
-                    <div className="teamCreate__container">
+                    <div className="modal__container">
                         <div className="black__Sreen"></div>
                             <div className="modal">
                                 <div>
                                     <img className="closeModal__icon" onClick={this.closeTeamCreator} src="/assets/close.png" />
                                 </div>
                                 <div className="form-group__edit">
-                                    <input className="input-teamCreate" type="text" name="team" onChange={this.handleChange} placeholder="team name" autoComplete="off" autoFocus/>
+                                    <input className="input-modal" type="text" name="team" onChange={this.handleChange} placeholder="team name" autoComplete="off" autoFocus/>
                                 </div>
                                 <div className="btn__container">
                                     <button className="btn" onClick={this.submit}>Create</button>

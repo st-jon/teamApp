@@ -1,37 +1,63 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import {initSocket} from '../socket'
 import {hideFileInBoard} from '../redux/actions'
 
 
 class Board extends React.Component {
     constructor() {
         super()
-        this.state = {}
+        this.state = {
+            showMailModal: false,
+            currentNote: ""
+        }
         this.closeNote = this.closeNote.bind(this)
+        this.sendMails = this.sendMails.bind(this)
+        this.toggleMailModal = this.toggleMailModal.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+    }
+
+    handleChange(e) {
+        this[e.target.name] = e.target.value
     }
 
     closeNote(id) {
-        console.log(id)
         this.props.dispatch(hideFileInBoard(id))
+    }
+
+    sendMails() {
+        let mail = {
+            sender: this.props.user.id,
+            recipient: this.recipient,
+            team: this.team,
+            note: this.state.currentNote
+        }
+        initSocket().emit('new mail sent', mail)
+        this.toggleMailModal('')
+    }
+
+    toggleMailModal(id) {
+        this.setState(prevState => ({
+            showMailModal: !prevState.showMailModal,
+            currentNote: id
+        }))
     }
 
     render() {
         const {notes} = this.props
 
-        if (!notes) {
-            return null
-        }
         return (
             <div className="board__container">
-            {notes.map(note => {
+            <div className="board__title">My Board</div>
+            {notes && notes.map(note => {
 
                 if(note.note) {
                     return (
                         <div className="noteBoard__container noteBoard" key={note.id}>
                             <div className="noteBoard__header">
                                 <div className="header__left__noteBoard">
-                                    <img className="noteBoard__icon" src='/assets/mailbox.png'></img>
+                                    <img onClick={() => this.toggleMailModal(note.id)} className="noteBoard__icon" src='/assets/mailbox.png'></img>
                                     <img className="noteBoard__icon" src="/assets/edit.png"></img>
                                 </div> 
                                 <div className="header__right__noteBoard">
@@ -59,7 +85,7 @@ class Board extends React.Component {
                         <div className="noteBoard__container linkBoard" key={note.id}>
                             <div className="noteBoard__header">
                                 <div className="header__left__noteBoard">
-                                    <img className="noteBoard__icon" src='/assets/mailbox.png'></img>
+                                    <img onClick={() => this.toggleMailModal(note.id)} className="noteBoard__icon" src='/assets/mailbox.png'></img>
                                 </div> 
                                 <div className="header__right__noteBoard">
                                     <img className="noteBoard__icon" src='/assets/close.png' onClick={() => this.closeNote(note.id)}></img>
@@ -87,7 +113,7 @@ class Board extends React.Component {
                         <div className="noteBoard__container soundBoard" key={note.id}>
                             <div className="noteBoard__header">
                                 <div className="header__left__noteBoard">
-                                    <img className="noteBoard__icon" src='/assets/mailbox.png'></img>
+                                    <img onClick={() => this.toggleMailModal(note.id)} className="noteBoard__icon" src='/assets/mailbox.png'></img>
                                 </div> 
                                 <div className="header__right__noteBoard">
                                     <img className="noteBoard__icon" src='/assets/close.png' onClick={() => this.closeNote(note.id)}></img>
@@ -111,7 +137,7 @@ class Board extends React.Component {
                         <div className="noteBoard__container videoBoard" key={note.id}>
                             <div className="noteBoard__header">
                                 <div className="header__left__noteBoard">
-                                    <img className="noteBoard__icon" src='/assets/mailbox.png'></img>
+                                    <img onClick={() => this.toggleMailModal(note.id)} className="noteBoard__icon" src='/assets/mailbox.png'></img>
                                 </div> 
                                 <div className="header__right__noteBoard">
                                     <img className="noteBoard__icon" src='/assets/close.png' onClick={() => this.closeNote(note.id)}></img>
@@ -131,13 +157,38 @@ class Board extends React.Component {
                 }
 
             })}
-            </div>
+            {this.state.showMailModal && 
+                <div className="modal__container">
+                    <div className="black__Sreen"></div>
+                        <div className="modal">
+                            <div>
+                                <img className="closeModal__icon" onClick={() => this.toggleMailModal("")} src="/assets/close.png" />
+                            </div>
+                            <div className="modal__title">Send this Note</div>
+                            <div className="form-group__edit">
+                                <input className="input-modal" type="text" name="recipient" onChange={this.handleChange} placeholder="to: (username)" autoComplete="off" autoFocus/>
+                            </div>
+                            <input className="input-modal" onChange={this.handleChange} type="text" name="team" list="teams" placeholder="choose a team"/>
+                                <datalist id="teams">
+                                {this.props.userTeams.length >= 1 && this.props.userTeams.map((team, i)=> (
+                                    <option key={i}>{team['team_name']}</option>
+                                ))}     
+                                </datalist>
+                            <div className="btn__container">
+                                <button className="btn" onClick={this.sendMails}>Send</button>
+                            </div>
+                        </div>
+                    
+                </div>
+            }
+        </div>
+            
         )
     }
 }
 
 const mapStateToProps = function(state) {
-    return {notes: state.board}
+    return {user: state.user, notes: state.board, currentTeam: state.currentTeam, userTeams: state.userTeams}
 }
 
 export default connect(mapStateToProps)(Board)

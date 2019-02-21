@@ -13,7 +13,7 @@ const publicPath = path.join(__dirname, '..', '/index.html')
 
 const app = express.Router()
 
-const {addUser, getUserByEmail, getUserById, updateUserById, updateUserWithCurrentTeam, getCurrentTeam, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes, addNotesWithPicture, addNotesWithLink, addNotesWithAudio, addNotesWithVideo, searchFriendByName, addTeam, addTeamMate, getTeams, getTeamsAndStatus, getMemberByTeam, addMemberRequest, acceptMemberRequest, cancelMemberRequest, getCurrentTeamAndMembers} = require('../db/db')
+const {addUser, getUserByEmail, getUserById, updateUserById, updateUserWithCurrentTeam, getCurrentTeam, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes, addNotesWithPicture, addNotesWithLink, addNotesWithAudio, addNotesWithVideo, searchFriendByName, addTeam, addTeamMate, getTeams, getTeamsAndStatus, getMemberByTeam, addMemberRequest, acceptMemberRequest, cancelMemberRequest, getCurrentTeamAndMembers, getMailsFromUser, getMailsContent} = require('../db/db')
 const {hashPassword, checkPassword} = require('../utils/crypt')
 const {validateForm} = require('../utils/utils')
 const {upload} = require('./s3')
@@ -67,7 +67,6 @@ app.post('/updateUserWithPicture', uploader.single('file'), upload, (req, res) =
 })
 
 app.post('/addCurrentTeamToUser', (req, res) => {
-    req.session.userTeam = req.body.teamID
     updateUserWithCurrentTeam(req.session.userID, req.body.teamID)
         .then(data => res.json(data))
         .catch(err => console.log('here', err.message))
@@ -120,6 +119,14 @@ app.get('/search/:text', (req, res) => {
 app.post('/notesWithPicture', uploader.single('file'), upload, (req, res) => {
     let url = `${s3Url}${req.file.filename}` 
     addNotesWithPicture(req.session.userID, req.body.text, req.body.folder, req.body.title, true, url)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
+// ADD NOTE WITHOUT PICTURE
+app.post('/notesWithoutPicture', (req, res) => {
+    console.log(req.body)
+    addNotesWithPicture(req.session.userID, req.body.text, req.body.folder, req.body.title, true)
         .then(data => res.json(data))
         .catch(err => console.log(err.message))
 })
@@ -190,7 +197,7 @@ app.post('/getMembersFromTeam', (req, res) => {
         .catch(err => console.log(err.message))
 })
 
-// // UPDATE MEMBER STATUS
+// UPDATE MEMBER STATUS
 app.post('/updateMemberStatus', (req, res) => {
     if (req.body.status === 'Add Member') {
         addMemberRequest(req.body.memberID, req.body.team, req.body.name)
@@ -209,85 +216,26 @@ app.post('/updateMemberStatus', (req, res) => {
     }
 })
 
-// // UPLOAD PROFILE PICTURE
-// app.post('/upload', uploader.single('file'), upload, (req, res) => {
-//     let url = `${s3Url}${req.file.filename}` 
-//     addProfilePic(req.session.userID, url)
-//         .then(data => res.json(data))
-//         .catch(err => console.log(err.message))
-// })
+// GET MAILS 
+app.post('/getMailsFromUser', (req, res) => {
+    getMailsFromUser(req.body.id)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
 
+// GET MAILS CONTENT
+app.post('/getMailsContent', (req, res) => {
+    getMailsContent(req.body.noteID, req.body.senderID)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
 
-
-// // UPLOAD WALL NO PICTURE
-// app.post('/wallNoPicture', (req, res) => {
-//     addWallPosts(req.session.userID, req.body.first, req.body.last, req.body.picture, req.body.message)
-//         .then(data => res.json(data))
-//         .catch(err => console.log(err.message))
-// })
-
-// // EDIT USER BIO
-// app.post('/edit/bio', (req, res) => {
-//     addBio(req.session.userID, req.body.bio)
-//         .then(data => res.json(data))
-//         .catch(err => console.log(err.message))
-// })
-
-// // NAVIGATE TO OTHER PROFILE
-// app.get('/api/user/:id', (req, res) => {
-//     if(req.session.userID == req.params.id) {
-//         res.json({ redirectTo: '/'})
-//     } else {
-//         getUserById(req.params.id)
-//         .then(data => res.json(data))
-//         .catch(err => {
-//             console.log(err.message)
-//             res.json({redirectTo: '/'})
-//         })
-//     } 
-// })
-
-
-
-// // GET FRIEND STATUS
-// app.get('/status/:id', (req, res) => {
-//     getFriendStatus(req.session.userID, req.params.id)
-//         .then(data => res.json(data))
-//         .catch(err => console.log(err.message))
-// })
-
-// // UPDATE FRIEND STATUS
-// app.post('/status/update', (req, res) => {
-//     if (req.body.status === 'Add Friend') {
-//         addFriendRequest(req.session.userID, req.body.otherID)
-//             .then(data => res.json(data))
-//             .catch(err => console.log(err.message))
-//     }
-//     else if (req.body.status === 'Accept Invitation') {
-//         acceptFriendRequest(req.body.otherID, req.session.userID)
-//             .then(data => res.json(data))
-//             .catch(err => console.log(err.message))
-//     }
-//     else if (req.body.status === 'Cancel Invitation' || 'Delete Friend') {
-//         cancelFriendRequest(req.session.userID, req.body.otherID)
-//             .then(data => res.json(data))
-//             .catch(err => console.log(err.message))
-//     }
-// })
-
-// // GET FRIENDS AND WANABEE
-// app.get('/getfriends', (req, res) => {
-//     getFriendsAndWanabee(req.session.userID)
-//         .then(data => res.json({data}))
-//         .catch(err => console.log(err.message))
-// })
-
-// // GET ONLINE USERS 
-// app.post('/chat', (req, res) => {
-//     getUsersById(req.body.arraysOfId)
-//         .then(data => res.json(data))
-//         .catch(err => console.log(err.message))
-// })
+// GET ONLINE USERS 
+app.post('/chat', (req, res) => {
+    getUsersById(req.body.arraysOfId)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
 
 // SEND REGISTRATION
 app.post('/register', (req, res) => {

@@ -107,6 +107,7 @@ export const UpdateOnlineUsers = (newOnlineUsers) => {
 }
 
 export const deleteOnlineUser = (id) => {
+    console.log(id)
     return {
         type: 'DELETE_ONLINE_USER',
         id
@@ -127,92 +128,44 @@ export const addMessage = (message) => {
     }
 }
 
-// export const updateMessage = (id) => {
-//     console.log(id) 
-//     return {
-//         type: 'UPDATE_MESSAGES'
-//     }
-// }
+// EMAIL
+
+export async function getEmails(id) {
+    const mails = await axios.post('/getMailsFromUser', {id})
+    return {
+        type: 'GET_EMAILS',
+        mails: mails.data.rows
+    }
+}
+
+export const addEmail = (mail) => {
+    return {
+        type: 'ADD_EMAIL',
+        mail
+    }
+}
 
 
-// export async function receiveFriends() {
-//     const {data} = await axios.get('/getfriends')
-//     return {
-//         type: 'RECEIVE_FRIENDS',
-//         friends: data.data.rows
-//     };
-// }
+export const addEmailCategory = (title) => {
+    return {
+        type: 'GET_EMAIL_CONTENT_TITLE',
+        title
+    }
+}
 
-// export const deleteFriend = async (id) => {
-//     const {data} = await axios.post('/status/update', {
-//         status: 'Delete Friend',
-//         otherID: id
-//     })
-//     return {
-//         type: 'DELETE_FRIEND',
-//         data,
-//         id
-//     }
-// }
+export const addEmailContent = (emails, folder) => {
+    return {
+        type: 'ADD_EMAIL_CONTENT',
+        emails,
+        folder
+    }   
+}
 
-// export const addFriend = async(id) => {
-//     const {data} = await axios.post('/status/update', {
-//         status: 'Accept Invitation',
-//         otherID: id
-//     })
-//     return {
-//         type: 'ADD_FRIEND',
-//         data,
-//         id
-//     }
-// }
-
-// export const getOnlineUsers = (onlineUsers) => {
-//     return {
-//         type: 'GET_ONLINE_USERS',
-//         onlineUsers
-//     }
-// }
-
-// export const UpdateOnlineUsers = (newOnlineUsers) => {
-//     return {
-//         type: 'UPDATE_ONLINE_USERS',
-//         newOnlineUsers
-//     }
-// }
-
-// export const deleteOnlineUser = (id) => {
-//     return {
-//         type: 'DELETE_ONLINE_USER',
-//         id
-//     }
-// }
-
-// export const getMessages = (messages) => {
-//     return {
-//         type: 'GET_MESSAGES',
-//         messages
-//     }
-// }
-
-// export const addMessage = (message) => {
-//     return {
-//         type: 'ADD_MESSAGE',
-//         message
-//     }
-// }
-
-// export const getWallMessages = (posts) => {
-//     return {
-//         type: 'GET_WALL_POSTS',
-//         posts
-//     }
-// }
-
-// export const addWallMessage = (post) => {
-//     console.log(post)
-//     return {
-//         type: 'ADD_WALL_POST',
-//         post
-//     }
-// }
+export function showEmailInBoard(id, folder) {
+    console.log(folder, id)
+    return {
+        type: 'SHOW_EMAIL_IN_BOARD',
+        folder,
+        id
+    }
+}

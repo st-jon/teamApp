@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import {uniqBy} from 'lodash'
 
 export default function(state = {}, action) {
 
@@ -25,7 +25,7 @@ export default function(state = {}, action) {
 
     // NOTES
     if (action.type === 'GET_NOTES_TYPE') {
-       const filteredNotes =  _.uniqBy(action.notes, 'note_type')
+       const filteredNotes =  uniqBy(action.notes, 'note_type')
 
         state = {...state, notes: filteredNotes}
     }
@@ -145,6 +145,58 @@ export default function(state = {}, action) {
             ...state,
             messages: [...state.messages, action.message]
         }
+    }
+
+    if (action.type === 'GET_EMAILS') {
+        state = {
+            ...state,
+            mails: action.mails
+        }
+    }
+
+    if (action.type === 'ADD_EMAIL') {
+        state = {
+            ...state,
+            mails: [...state.mails, action.mail]
+        }
+    }
+
+    if (action.type === 'GET_EMAIL_CONTENT_TITLE') {
+        let array = []
+        action.title.forEach(item => {
+            array.push({...item, files: []})
+        })
+        state = {
+            ...state, mailsContent: array
+        }
+    }
+
+    if (action.type === 'ADD_EMAIL_CONTENT') {
+        const index = state.mailsContent.findIndex(mails => mails.folder === action.folder)
+        const newArray = [...state.mailsContent[index].files, action.emails]
+        state = {
+            ...state,
+            mailsContent: state.mailsContent.map(
+                (mails, i) => {
+                    if (i === index) {
+                        return {
+                            ...mails,
+                            files: newArray
+                        }
+                    } else {
+                        return mails
+                    }
+                }
+            )
+        }
+    }
+
+    if (action.type === 'SHOW_EMAIL_IN_BOARD') {
+        const folder = state.mailsContent.filter(note => note['note_type'] === action.noteType)
+        const file = folder[0].files.filter(file => file.id === action.id)
+        const board = state.board ? [...state.board , ...file] : [...file]
+        const filteredBoard = [...new Set(board)]
+        state = {...state, board: filteredBoard}
     }
 
     return state

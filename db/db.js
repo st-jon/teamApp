@@ -23,7 +23,8 @@ module.exports.addUser = (username, firstName, lastName, email, password) => {
 // GET USER BY EMAIL
 module.exports.getUserByEmail = (email) => {
     return db.query(`
-        SELECT * FROM users
+        SELECT * 
+        FROM users
         WHERE email = $1`,
         [email]
     )
@@ -36,6 +37,15 @@ module.exports.getUserById = (id) => {
         FROM users
         WHERE id = $1`,
         [id]
+    )
+}
+
+// GET USER BY USERNAME
+module.exports.getUserByUsername = (username) => {
+    return db.query(`
+        SELECT * FROM users 
+        WHERE username = $1`, 
+        [username]
     )
 }
 
@@ -260,6 +270,38 @@ module.exports.addMessage = (id, team,  message) => {
         VALUES ($1, $2, $3)
         RETURNING *`,
         [id, team, message]
+    )
+}
+
+// ADD NEW MAIL 
+module.exports.addMail = (senderID, recipientID, teamID, NoteID) => {
+    return db.query(`
+        INSERT INTO mails (sender_id, recipient_id, team_id, note_id)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *
+        `, 
+        [senderID, recipientID, teamID, NoteID]
+    )
+}
+
+// GET MAILS FOR USER
+module.exports.getMailsFromUser = (recipientID) => {
+    return db.query(`
+        SELECT * FROM mails
+        WHERE recipient_id = $1`, 
+        [recipientID]
+    )
+}
+
+// GET MAILS CONTENT
+module.exports.getMailsContent = (noteID, senderID) => {
+    return db.query(`
+        SELECT notes.*, users.username, users.user_picture 
+        FROM notes
+        JOIN users
+        ON users.id = $2
+        WHERE notes.id = $1`, 
+        [noteID, senderID]
     )
 }
 

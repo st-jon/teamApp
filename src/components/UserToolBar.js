@@ -2,22 +2,38 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import {getEmails} from '../redux/actions'
+
 import UserPicture from './UserPicture'
 import ToolBarNotes from './ToolBarNotes'
+import ToolBarMail from './ToolBarMail'
 import AddNote from './AddNote'
 
 class UserToolBar extends React.Component {
     constructor() {
         super()
         this.state = {
-            notesAreVisible: false
+            notesAreVisible: false,
+            mailsAreVisible: false
         }
         this.showNotes = this.showNotes.bind(this)
+        this.showMails = this.showMails.bind(this)
+    }
+
+    componentDidMount() {
+        this.props.dispatch(getEmails(this.props.user.id))
     }
 
     showNotes() {
         this.setState(prevState => ({
             notesAreVisible: !prevState.notesAreVisible
+        }))
+    }
+
+    showMails() {
+        // this.props.dispatch(getEmails(this.props.user.id))
+        this.setState(prevState => ({
+            mailsAreVisible: !prevState.mailsAreVisible
         }))
     }
 
@@ -45,10 +61,11 @@ class UserToolBar extends React.Component {
                     <img className="toolBar__icon" src='/assets/chat.png' />
                     <div className="toolBar__title"> Chat</div>
                 </Link>
-                <div className="user-mailbox toolBar-menu">
+                <div className="user-mailbox toolBar-menu" onClick={this.showMails}>
                     <img className="toolBar__icon" src='/assets/mailbox.png' />
                     <div className="toolBar__title"> Mailbox</div>
                 </div>
+                {this.state.mailsAreVisible && <ToolBarMail />}
                 <div className="user-trash toolBar-menu">
                     <img className="toolBar__icon" src='/assets/trash.png' />
                     <div className="toolBar__title"> Trash</div>

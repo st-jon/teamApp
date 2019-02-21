@@ -1,5 +1,5 @@
 import * as io from 'socket.io-client'
-import {getOnlineUsers, UpdateOnlineUsers, deleteOnlineUser, getMessages, addMessage, updateMessage} from './redux/actions'
+import {getOnlineUsers, UpdateOnlineUsers, deleteOnlineUser, getMessages, addMessage, addEmail} from './redux/actions'
 
 let socket
 
@@ -27,13 +27,17 @@ export function initSocket(store) {
             store.dispatch(addMessage(message.message))
         })
 
-        socket.on('user joined', id => {
-            console.log(id)
+        socket.on('mail notification', message => {
+            store.dispatch(addEmail(message))
         })
 
-        socket.on('user left the room', id => {
-            console.log(id)
-        })
+        // socket.on('user joined', id => {
+        //     console.log(id)
+        // })
+
+        // socket.on('user left the room', id => {
+        //     console.log(id)
+        // })
 
     }
     return socket

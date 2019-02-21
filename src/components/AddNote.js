@@ -92,7 +92,7 @@ class AddNote extends React.Component {
             formData.append('folder', this.noteFolder)
             formData.append('title', this.newNoteTitle)
             axios.post('/notesWithAudio', formData)
-                .then(({data}) => console.log(data))
+                .then(({data}) => this.props.dispatch(addNote(data.rows[0], data.rows[0]['note_type'])))
                 .catch(err => err.message)
         } 
 
@@ -118,6 +118,18 @@ class AddNote extends React.Component {
                 .then(({data}) => this.props.dispatch(addNote(data.rows[0], data.rows[0]['note_type'])))
                 .catch(err => err.message)
         } 
+
+        if (!picture && this.state.noteTypeIsVisible === 'note') {
+            // let formData = new FormData()
+            // formData.append('text', this.newNote)
+            // formData.append('folder', this.noteFolder)
+            // formData.append('title', this.newNoteTitle)
+            axios.post('/notesWithoutPicture', {text: this.newNote, folder: this.noteFolder, title: this.newNoteTitle})
+                .then(({data}) => this.props.dispatch(addNote(data.rows[0], data.rows[0]['note_type'])))
+                .catch(err => err.message)
+        }
+
+
 
         else if (this.state.noteTypeIsVisible === 'link' && this.newNote.trim().indexOf("http") === 0 ) {
            axios.post('/getBodyLink', {

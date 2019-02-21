@@ -11,7 +11,8 @@ class TeamSelector extends React.Component {
         super()
         this.state = {
             home: true,
-            menuIsVisible: false
+            menuIsVisible: false,
+            currentTeam: null
         }
         this.showMenu = this.showMenu.bind(this)
         this.setCurrentTeam = this.setCurrentTeam.bind(this)
@@ -20,10 +21,13 @@ class TeamSelector extends React.Component {
         if (this.props.user['current_teamid']) {
             this.props.dispatch(addCurrentTeam(this.props.user['current_teamid']))
 
-            if(this.props.user['current_teamid'])
-                this.setState({home:false})
+            if(this.props.user['current_teamid']){
+                this.setState({home:false, currentTeam: this.props.user['current_teamid']})
+                initSocket().emit('subscribe', this.props.user['current_teamid'])
+            }     
             else {
-                this.setState({home:true})
+                this.setState({home:true, currenTeam: null})
+                initSocket().emit('unsubscribe', null)
             }
         } 
     }
@@ -31,13 +35,14 @@ class TeamSelector extends React.Component {
     setCurrentTeam(teamID) {
         this.props.dispatch(addCurrentTeam(teamID))
         this.showMenu
-        const io = initSocket()
-        io.emit('subscribe', teamID)
+        initSocket().emit('subscribe', teamID)
         if (teamID === null) {
-            this.setState({home: true})
+            initSocket().emit('unsubscribe', this.state.currentTeam)
+            this.setState({home: true, currentTeam: null})
         }
         else if (teamID) {
-             this.setState({home: false})
+            initSocket().emit('subscribe', teamID)
+             this.setState({home: false, currentTeam: teamID})
         }
     }
 

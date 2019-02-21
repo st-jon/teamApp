@@ -8,7 +8,7 @@ const path = require('path')
 const {cookieSecret} = require("../secrets.json")
 const routes = require('./routes')
 
-const {getUsersById, getMessages, addMessage} = require('../db/db')
+const {getUsersById, getMessages, addMessage, addMail, getUserByUsername} = require('../db/db')
 
 const app = new express()
 const publicPath = path.join(__dirname, '..', 'public')
@@ -56,68 +56,106 @@ server.listen(8080, function() {
     console.log("Server listen on port 8080")
 })
 
-
-
 let onlineUsers = {}
-let currentRoom
+let currentRoom = {}
 
 io.on('connection', (socket) => {
     console.log('server connected to socket', socket.id)
 
-    onlineUsers[socket.id] = socket.request.session.userID
-
-    let usersID = [... new Set(Object.values(onlineUsers))]
     socket.on('subscribe', room => {
+
+        onlineUsers[socket.id] = socket.request.session.userID
+        currentRoom[socket.id] = room
+        let usersID = [... new Set(Object.values(onlineUsers))]
+
         socket.join(room)
 
-
-
-    // ONLINE USERS
-    getUsersById(usersID, room)
-        .then(data => {
-            socket.emit('users online', {
-                onlineUsers: data.rows
-            })
-            socket.to(room).broadcast.emit('new user', {
-                newUser: data.rows.filter(user => {
-                    return user.id === socket.request.session.userID
+        // ONLINE USERS
+        getUsersById(usersID, room)
+            .then(data => {
+                socket.emit('users online', {
+                    onlineUsers: data.rows
+                })
+                socket.to(room).broadcast.emit('new user', {
+                    newUser: data.rows.filter(user => {
+                        return user.id === socket.request.session.userID
+                    })
                 })
             })
-        })
-        .catch(err => console.log(err.message))
+            .catch(err => console.log(err.message))
 
 
-    // CHAT ROOM MESSAGES
-    getMessages(room)
-        .then(data => {
-            socket.emit('chat messages', {
-                messages: data.rows.reverse()
+        // CHAT ROOM MESSAGES
+        getMessages(room)
+            .then(data => {
+                socket.emit('chat messages', {
+                    messages: data.rows.reverse()
+                })
             })
-        })
-        .catch(err => console.log('here', err.message))
+            .catch(err => console.log('here', err.message))
+
+        // MAILS 
+
+
+    })
 
     socket.on('new chat message from user', message => {
-        addMessage(socket.request.session.userID, room, message.message)
+        let messageRoom = currentRoom[socket.id]
+        addMessage(socket.request.session.userID, messageRoom, message.message)
             .then(data => {
                 data.rows[0].username = message.username
                 data.rows[0]['first_name'] = message.first
                 data.rows[0]['last_name'] = message.last
                 data.rows[0]['user_picture'] = message.picture
                 data.rows[0].genre = message.genre
-                io.in(room).emit('chat message', {
+                io.in(messageRoom).emit('chat message', {
                     message: data.rows[0]
                 })
             })
             .catch(err => console.log(err.message))
     })
-})
 
-    socket.on('disconnect', () => {
+    socket.on('new mail sent', mail => {
+        getUserByUsername(mail.recipient)
+            .then(user => {
+                return addMail(mail.sender, user.rows[0].id, mail.team, mail.note)
+            })
+            .then(data => {
+                const socketID = Object.keys(onlineUsers).find(key => onlineUsers[key] === data.rows[0]['recipient_id'])
+                if (socketID) {
+                    console.log(socketID)
+                    io.to(`${socketID}`).emit('mail notification', data.rows[0])
+                }
+                else {
+                    console.log('sucker !!!')
+                }
+            })
+            .catch(err => console.log(err.message))
+    })
+
+    socket.on('unsubscribe', room => {
+
+        console.log('in unsubscribe: ', room)
         let userToDelete =  onlineUsers[socket.id]
-        delete onlineUsers[socket.id]
 
-        io.sockets.emit('user left', {
+        delete onlineUsers[socket.id]
+        delete currentRoom[socket.id]
+        console.log('userToDelete', userToDelete)
+
+        socket.to(room).emit('user left', {
             id: userToDelete
         })
+
+        socket.leave(room)
+    })
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected')
+        // let userToDelete =  onlineUsers[socket.id]
+        // delete onlineUsers[socket.id]
+        // console.log('userToDelete', userToDelete)
+        // io.sockets.emit('user left', {
+        //     id: userToDelete
+        // })
     })
 })
