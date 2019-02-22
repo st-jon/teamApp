@@ -56,9 +56,9 @@ class Chat extends React.Component {
         }
         if (!this.props.user['current_teamid']) {
             this.props.history.push('/')
-        } else{
-            let userStatus = this.props.userTeams.find(user => {
-                return user['team_id'] === this.props.user['current_teamid']
+        } else {
+            let userStatus = this.props.currentTeam.find(user => {
+                return user['member_id'] === this.props.user.id
             })
             if(!userStatus.accepted) {
                 return (

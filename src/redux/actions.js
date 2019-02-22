@@ -76,6 +76,7 @@ export async function deleteNote(id, noteType) {
 export async function addCurrentTeam(team) {
     await axios.post('/addCurrentTeamToUser', {teamID: team})
     const teams = await axios.post('/getMembersFromTeam', {id: team})
+    // console.log(teams)
     return {
         type: 'ADD_CURRENT_TEAM',
         id: team,
@@ -93,6 +94,7 @@ export async function getTeams() {
 
 export async function addNewMemberToCurrentTeam(id) {
     const teams = await axios.post('/getMembersFromTeam', {id})
+    console.log(teams)
     return {
         type: 'ADD_MEMBER_TO_CURRENT_TEAM',
         teams: teams.data.rows

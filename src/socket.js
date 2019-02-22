@@ -28,6 +28,7 @@ export function initSocket(store) {
         })
 
         socket.on('mail notification', message => {
+            console.log('there is a new mail for :', message)
             store.dispatch(addEmail(message))
         })
 

@@ -76,6 +76,7 @@ class AddMemberButton extends React.Component {
             .catch(err => console.log(err.message))
         } 
         else {
+            console.log(this.state.status, this.props.memberID, this.props.memberTeam, this.props.user['team_name'])
             axios.post('/updateMemberStatus', {
                 status: this.state.status,
                 memberID:  this.props.memberID,
@@ -83,6 +84,8 @@ class AddMemberButton extends React.Component {
                 name: this.props.user['team_name']
             })
             .then((res) => {
+                console.log(this.props.user['current_teamid'])
+
                 if (res.data.command === "INSERT") {
                     this.setState({
                         status: 'Pending... Cancel?'

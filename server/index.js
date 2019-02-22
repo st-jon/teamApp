@@ -130,6 +130,7 @@ io.on('connection', (socket) => {
             .then(data => {
                 const socketID = Object.keys(onlineUsers).find(key => onlineUsers[key] === data.rows[0]['recipient_id'])
                 if (socketID) {
+                    console.log('socketID: ' ,socketID)
                     io.to(`${socketID}`).emit('mail notification', data.rows[0])
                 }
                 else {

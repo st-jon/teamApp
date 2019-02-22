@@ -98,17 +98,30 @@ export default function(state = {}, action) {
     // TEAM
 
     if (action.type === 'ADD_CURRENT_TEAM') {
-        if (action.id ) {
+        if (action.id) {
             const infos = action.teams.filter(team => team['member_id'] === state.user.id)
-            state = { ...state,
-                user: {
-                    ...state.user, 
-                    current_teamid: action.id,
-                    "is_admin": infos[0]['is_admin'],
-                    "team_name": infos[0]['team_name']
-                },
-                currentTeam: action.teams
-            }
+            if (infos.length < 1) {
+                state = { ...state,
+                    user: {
+                        ...state.user,
+                        current_teamid: action.id,
+                        "is_admin": false,
+                        "team_name": ""
+                        
+                    },
+                    currentTeam: action.team
+                } 
+            } else {
+                state = { ...state,
+                    user: {
+                        ...state.user, 
+                        current_teamid: action.id,
+                        "is_admin": infos[0]['is_admin'],
+                        "team_name": infos[0]['team_name']
+                    },
+                    currentTeam: action.teams
+                }
+            }   
         } else {
             state = { ...state,
                 user: {

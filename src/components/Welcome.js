@@ -14,7 +14,7 @@ export default function Welcome() {
                 <p className="title__m">M</p> 
             </div>
                 
-                <div className="subtitle">work and share your work with other</div>
+                <div className="subtitle">Work and Share your Work with Others</div>
             </div>
             <HashRouter>
                 <div className="welcome__right">
