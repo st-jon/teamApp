@@ -13,7 +13,14 @@ class TeamMemberToolBar extends React.Component {
         if (!currentTeam) {
             return null
         }
+        let array = []
 
+        if (this.props.onlineUsers) {
+            this.props.onlineUsers.forEach(item => {
+                array.push(item.id) 
+            }) 
+        }
+       
         return (
             <div className="teamMemberToolBar__container">
                 <div className="teamMemberToolBar__title">{this.props.user['team_name']}</div>
@@ -26,7 +33,7 @@ class TeamMemberToolBar extends React.Component {
                                 <div className="teamMemberToolBar__member__username">
                                     {member.username}
                                 </div>
-                                {false && <div className="online__alert"></div>}
+                                {array.includes(member['member_id']) && <div className="online__alert"></div>}
                             </div>}
                         </div>
                         )

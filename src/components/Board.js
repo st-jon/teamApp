@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import {initSocket} from '../socket'
-import {hideFileInBoard} from '../redux/actions'
+import {hideFileInBoard, deleteNote} from '../redux/actions'
 
 
 class Board extends React.Component {
@@ -16,6 +16,7 @@ class Board extends React.Component {
         this.sendMails = this.sendMails.bind(this)
         this.toggleMailModal = this.toggleMailModal.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.deleteNote = this.deleteNote.bind(this)
     }
 
     handleChange(e) {
@@ -42,6 +43,11 @@ class Board extends React.Component {
             showMailModal: !prevState.showMailModal,
             currentNote: id
         }))
+    }
+
+    deleteNote(id, noteType) {
+        this.props.dispatch(hideFileInBoard(id))
+        this.props.dispatch(deleteNote(id, noteType))
     }
 
     render() {
@@ -74,7 +80,7 @@ class Board extends React.Component {
                             </div>
 
                             <div className="noteBoard__footer">
-                                <img className="noteBoard__icon" src='/assets/remove.png'></img>
+                                <img className="noteBoard__icon" onClick={() => this.deleteNote(note.id, note['note_type'])} src='/assets/remove.png'></img>
                             </div>
                         </div>
                     )

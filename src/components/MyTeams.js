@@ -10,26 +10,39 @@ import {getTeams, addCurrentTeam} from '../redux/actions'
 class MyTeams extends React.Component {
     constructor() {
         super()
-        this.state = {}
+        this.state = {
+            visible: ''
+        }
         this.showTeam = this.showTeam.bind(this)
+        this.getTeamMember = this.getTeamMember.bind(this)
     }
 
     componentDidMount() {
         this.props.dispatch(getTeams())
-        //this.props.dispatch(addCurrentTeam(id))
     }
 
     showTeam(id) {
-        axios.post('/getMembersFromTeam', {id})
-            .then(({data}) => {
-                let teamMember = []
-                data.rows.map(team => {
-                    teamMember.push(team)
-                    this.setState({[team['team_id']]: teamMember})
-                })
+        this.props.dispatch(addCurrentTeam(id))
+        this.setState({
+            visible: id
+        })
+        setTimeout(() => {
+            this.getTeamMember(id)
+        }, 1000)
 
+    }
+
+    getTeamMember(id) {
+        axios.post('/getMembersFromTeam', {id})
+        .then(({data}) => {
+            let teamMember = []
+            data.rows.map(team => {
+                teamMember.push(team)
+                this.setState({[team['team_id']]: teamMember})
             })
-            .catch(err => console.log(err.message))
+            
+        })
+        .catch(err => console.log(err.message))
     }
 
     render(){
@@ -40,6 +53,12 @@ class MyTeams extends React.Component {
 
         return (
             <div className="teams__container">
+                {userTeams.length < 1 && 
+                    <div className="teams__message">
+                        <img className='team__sad' src='/assets/sad.png' />
+                        <div className="teams__info">You have no teams yet...<br></br><br></br>You can create one and start inviting people to work with you by clicking the top right menu button</div>
+                    </div>
+                }
                {userTeams.map(team => {
                    return (
                         <div key={team.id} onClick={() =>this.showTeam(team['team_id'])} className="team__container">
@@ -47,7 +66,7 @@ class MyTeams extends React.Component {
                                 {team['is_admin'] && <img className="admin__icon__notification" src="/assets/admin.png"/>}
                                 <img className="myTeam__icon" src="/assets/expend.png" />
                             </div> 
-                            {this.state[team['team_id']] && 
+                            {this.state[team['team_id']] && this.state.visible === team['team_id'] &&
                                 <div className="teamMember__container">
                                     {this.state[team['team_id']].map(member => {
                                         return (
@@ -65,7 +84,7 @@ class MyTeams extends React.Component {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {!member['is_admin'] && <AddMemberButton memberID={member['member_id']} memberGenre={member.genre} />}
+                                                {!member['is_admin'] && <AddMemberButton memberID={member['member_id']} memberGenre={member.genre} memberTeam={member['team_id']} />}
                                             </div>    
                                         )
                                     })}

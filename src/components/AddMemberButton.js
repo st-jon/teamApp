@@ -15,7 +15,6 @@ class AddMemberButton extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.user)
         if (this.props.user['is_admin']) {
             axios.post(`/status/${this.props.memberID}`, {teamID: this.props.user['current_teamid']})
             .then(res => {
@@ -32,7 +31,7 @@ class AddMemberButton extends React.Component {
             .catch(err => console.log(err.message))
         } 
         else {
-            axios.post(`/status/${this.props.memberID}`, {teamID: this.props.user['current_teamid']})
+            axios.post(`/status/${this.props.memberID}`, {teamID: this.props.memberTeam})
             .then(res => {
                 if (res.data.rows[0].accepted === false && this.props.user['is_admin'] === false) {
                     this.setState({status: 'Join this team'})
@@ -80,7 +79,7 @@ class AddMemberButton extends React.Component {
             axios.post('/updateMemberStatus', {
                 status: this.state.status,
                 memberID:  this.props.memberID,
-                team: this.props.user['current_teamid'],
+                team: this.props.memberTeam,
                 name: this.props.user['team_name']
             })
             .then((res) => {
@@ -108,7 +107,6 @@ class AddMemberButton extends React.Component {
     }
 
     render() {
-        console.log(this.props.memberGenre)
         return (
         <div>
             {this.props.user['is_admin'] && <div onClick={this.updateMemberStatus} className="addMemberButton__container">

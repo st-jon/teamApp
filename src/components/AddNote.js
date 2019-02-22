@@ -97,7 +97,6 @@ class AddNote extends React.Component {
         } 
 
         if (this.state.noteTypeIsVisible === 'video' && this.state.video) {
-            console.log('hey')
             let formData = new FormData()
             formData.append('file', this.state.video)
             formData.append('folder', this.noteFolder)

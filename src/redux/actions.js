@@ -64,6 +64,15 @@ export function addNote(file, noteType) {
     }
 }
 
+export async function deleteNote(id, noteType) {
+    const data = await axios.post('/deleteNoteById', {id})
+    return {
+        type: 'DELETE NOTE',
+        noteType,
+        id
+    }
+}
+
 export async function addCurrentTeam(team) {
     await axios.post('/addCurrentTeamToUser', {teamID: team})
     const teams = await axios.post('/getMembersFromTeam', {id: team})
@@ -162,7 +171,6 @@ export const addEmailContent = (emails, folder) => {
 }
 
 export function showEmailInBoard(id, folder) {
-    console.log(folder, id)
     return {
         type: 'SHOW_EMAIL_IN_BOARD',
         folder,

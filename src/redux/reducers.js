@@ -35,6 +35,30 @@ export default function(state = {}, action) {
         state.notes[index].files = action.files
     }
 
+    if (action.type === 'DELETE NOTE') {
+        const index = state.notes.findIndex(note => note['note_type'] === action.noteType)
+        console.log(index)
+        let newArray = state.notes[index].files.filter(note => {
+            return note.id !== action.id
+        })
+        console.log(newArray)
+        state = {
+            ...state,
+            notes: state.notes.map(
+                (note, i) => {
+                    if (i === index) {
+                        return {
+                            ...note,
+                            files: newArray
+                        }
+                    } else {
+                        return note
+                    }
+                }
+            )
+        }
+    }
+
     // FILES
     if (action.type === 'SHOW_FILE_IN_BOARD') {
         const folder = state.notes.filter(note => note['note_type'] === action.noteType)
@@ -124,7 +148,7 @@ export default function(state = {}, action) {
         }
     }
 
-    if (action.type === 'DELETE_ONLINE_USER') {
+    if (action.type === 'DELETE_ONLINE_USER') {   
         state = {
             ...state,
             onlineUsers: state.onlineUsers.filter(user => {
@@ -192,7 +216,7 @@ export default function(state = {}, action) {
     }
 
     if (action.type === 'SHOW_EMAIL_IN_BOARD') {
-        const folder = state.mailsContent.filter(note => note['note_type'] === action.noteType)
+        const folder = state.mailsContent.filter(note => note.folder === action.folder)
         const file = folder[0].files.filter(file => file.id === action.id)
         const board = state.board ? [...state.board , ...file] : [...file]
         const filteredBoard = [...new Set(board)]

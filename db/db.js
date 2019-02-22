@@ -167,6 +167,14 @@ module.exports.addNotesWithVideo = (id, folder, title, video) => {
     )
 }
 
+module.exports.deleteNoteById = (id) => {
+    return db.query(`
+        DELETE FROM notes
+        WHERE id = $1`, 
+        [id]
+    )
+}
+
 module.exports.addTeam = (id, team) => {
     return db.query(`
         INSERT INTO teams (team_admin, team)

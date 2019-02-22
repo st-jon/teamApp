@@ -4,6 +4,7 @@ const cookieSession = require('cookie-session')
 const csurf = require('csurf')
 const express = require('express')
 const path = require('path')
+const _ = require('lodash')
 
 const {cookieSecret} = require("../secrets.json")
 const routes = require('./routes')
@@ -67,7 +68,6 @@ io.on('connection', (socket) => {
         onlineUsers[socket.id] = socket.request.session.userID
         currentRoom[socket.id] = room
         let usersID = [... new Set(Object.values(onlineUsers))]
-
         socket.join(room)
 
         // ONLINE USERS
@@ -76,11 +76,18 @@ io.on('connection', (socket) => {
                 socket.emit('users online', {
                     onlineUsers: data.rows
                 })
-                socket.to(room).broadcast.emit('new user', {
-                    newUser: data.rows.filter(user => {
-                        return user.id === socket.request.session.userID
-                    })
+                let newUser = data.rows.filter(user => {
+                    return user.id === socket.request.session.userID
                 })
+                let uniq =  _.uniqBy(newUser, 'id' )
+                if (uniq.length < 1) {
+                    return
+                } else {
+                    socket.to(room).broadcast.emit('new user', {
+                        newUser: uniq
+                    })
+                }
+                
             })
             .catch(err => console.log(err.message))
 
@@ -123,7 +130,6 @@ io.on('connection', (socket) => {
             .then(data => {
                 const socketID = Object.keys(onlineUsers).find(key => onlineUsers[key] === data.rows[0]['recipient_id'])
                 if (socketID) {
-                    console.log(socketID)
                     io.to(`${socketID}`).emit('mail notification', data.rows[0])
                 }
                 else {
@@ -137,7 +143,7 @@ io.on('connection', (socket) => {
 
         console.log('in unsubscribe: ', room)
         let userToDelete =  onlineUsers[socket.id]
-
+        console.log(room)
         delete onlineUsers[socket.id]
         delete currentRoom[socket.id]
         console.log('userToDelete', userToDelete)

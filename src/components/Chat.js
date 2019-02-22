@@ -54,10 +54,23 @@ class Chat extends React.Component {
         if (!messages) {
             return null
         }
-        if (this.props.user['current_teamid'] === null) {
+        if (!this.props.user['current_teamid']) {
             this.props.history.push('/')
+        } else{
+            let userStatus = this.props.userTeams.find(user => {
+                return user['team_id'] === this.props.user['current_teamid']
+            })
+            if(!userStatus.accepted) {
+                return (
+                    <div className="chat__container">
+                        <img className="team__sad" src='/assets/private.png' />
+                        <div className="team__message">to access here you need first to join the group</div>
+                    </div> 
+                )
+            }
         }
-
+        
+        
         return (
             <div className="chat__container">
                 <div className="screen__container" ref={elem => (this.elem = elem)}>
@@ -92,7 +105,7 @@ class Chat extends React.Component {
 
 
 const mapStateToProps = function(state) {
-    return {user: state.user, currentTeam: state.currentTeam, messages: state.messages}
+    return {user: state.user, userTeams: state.userTeams, currentTeam: state.currentTeam, messages: state.messages}
 }
 
 export default connect(mapStateToProps)(Chat)

@@ -31,7 +31,9 @@ class UserToolBar extends React.Component {
     }
 
     showMails() {
-        // this.props.dispatch(getEmails(this.props.user.id))
+        if (this.props.mails.length < 1) {
+            return
+        }
         this.setState(prevState => ({
             mailsAreVisible: !prevState.mailsAreVisible
         }))
@@ -75,7 +77,7 @@ class UserToolBar extends React.Component {
     }
 }
 const mapStateToProps = function(state) {
-    return {user: state.user}
+    return {user: state.user, mails: state.mails}
 }
 
 export default connect(mapStateToProps)(UserToolBar)

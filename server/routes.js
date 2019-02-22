@@ -13,7 +13,7 @@ const publicPath = path.join(__dirname, '..', '/index.html')
 
 const app = express.Router()
 
-const {addUser, getUserByEmail, getUserById, updateUserById, updateUserWithCurrentTeam, getCurrentTeam, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes, addNotesWithPicture, addNotesWithLink, addNotesWithAudio, addNotesWithVideo, searchFriendByName, addTeam, addTeamMate, getTeams, getTeamsAndStatus, getMemberByTeam, addMemberRequest, acceptMemberRequest, cancelMemberRequest, getCurrentTeamAndMembers, getMailsFromUser, getMailsContent} = require('../db/db')
+const {addUser, getUserByEmail, getUserById, updateUserById, updateUserWithCurrentTeam, getCurrentTeam, getNotesTypesByAuthor, getFilesByNotesType, insertDefaultIntoNotes, addNotesWithPicture, addNotesWithLink, addNotesWithAudio, addNotesWithVideo, searchFriendByName, addTeam, addTeamMate, getTeams, getTeamsAndStatus, getMemberByTeam, addMemberRequest, acceptMemberRequest, cancelMemberRequest, getCurrentTeamAndMembers, getMailsFromUser, getMailsContent, deleteNoteById} = require('../db/db')
 const {hashPassword, checkPassword} = require('../utils/crypt')
 const {validateForm} = require('../utils/utils')
 const {upload} = require('./s3')
@@ -157,6 +157,13 @@ app.post('/notesWithAudio', uploader.single('file'), upload, (req, res) => {
 app.post('/notesWithVideo', uploader.single('file'), upload, (req, res) => {
     let url = `${s3Url}${req.file.filename}` 
     addNotesWithVideo(req.session.userID, req.body.folder, req.body.title, url)
+        .then(data => res.json(data))
+        .catch(err => console.log(err.message))
+})
+
+// DELETE NOTE BY ID
+app.post('/deleteNoteById', (req, res) => {
+    deleteNoteById(req.body.id)
         .then(data => res.json(data))
         .catch(err => console.log(err.message))
 })
