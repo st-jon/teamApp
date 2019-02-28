@@ -1,6 +1,6 @@
 # Team App
 
-This project has been made in one week. This is a note taking app that allow the user to create, he can then create or join a team of people to share his ideas, notes with them. more details in the getting started part =>
+This project has been made in one week. This is a note taking app that allows the user to create or join a team of people and share his ideas and his notes with them. more details in the getting started part =>
 
 <img src="./public/assets/GIF/team_1.gif" width="600">
 
