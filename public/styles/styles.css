@@ -1461,15 +1461,15 @@ a:active {
     align-content: flex-start;
     height: 75vh;
     width: 10vw;
-    padding: 20px 5px;
+    padding: 20px 0;
 }
 
 .teamMemberToolBar__member {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding-left: 10px;
-    width: 10vw;
+    padding-left: 1vw;
+    width: 9vw;
     cursor: pointer;
 }
 

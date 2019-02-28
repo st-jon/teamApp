@@ -56,7 +56,8 @@ class Chat extends React.Component {
         }
         if (!this.props.user['current_teamid']) {
             this.props.history.push('/')
-        } else {
+        } 
+        else {
             let userStatus = this.props.currentTeam.find(user => {
                 return user['member_id'] === this.props.user.id
             })
@@ -69,7 +70,6 @@ class Chat extends React.Component {
                 )
             }
         }
-        
         
         return (
             <div className="chat__container">
